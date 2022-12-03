@@ -5,7 +5,7 @@
 int main(void) {
     setlocale(LC_ALL, "");
 
-    // Ler ano de nascimento do usuário
+    // Ler ano de nascimento do usuÃ¡rio
     int ano_nascimento;
     printf("Entre com o ano de seu nascimento: ");
     scanf("%d", &ano_nascimento);
@@ -17,5 +17,5 @@ int main(void) {
 
     // Calcular e exibir idade
     int idade = ano_atual - ano_nascimento;
-    printf("Você tem %d anos.", idade);
+    printf("VocÃª tem %d anos.", idade);
 }
