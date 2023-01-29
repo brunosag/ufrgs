@@ -1,3 +1,11 @@
+# No extension files
+*
+!/**/
+!*.*
+
+# VSCode
+*.vscode
+
 # Prerequisites
 *.d
 
