@@ -5,6 +5,7 @@
 
 # VSCode
 *.vscode
+*.clang-format
 
 # Prerequisites
 *.d
