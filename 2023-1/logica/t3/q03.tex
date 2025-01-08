@@ -1,0 +1,38 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.3in]{geometry}
+\usepackage{titlesec}
+\usepackage{fitch}
+
+\title{Trabalho III}
+\author{Bruno Samuel A. Gonçalves}
+\date{}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Questão 3}
+
+\noindent Sequente:
+
+\[ p, q\to (p\to r) \vdash_{AX} q\to r \]
+
+\noindent Dedução:
+
+\[
+\begin{nd}
+  \have {1} {p \to (q \to r)}                                   \by{P}{}
+  \have {2} {q}                                                 \by{P}{}
+  \have {3} {(p \to (q \to r)) \to ((p \to q) \to (p \to r))}   \by{Ax$_{2}$}{}
+  \have {4} {(p \to q) \to (p \to r)}                           \by{mp}{1,3}
+  \have {5} {q \to (p \to q)}                                   \by{Ax$_{1}$}{}
+  \have {6} {p \to q}                                           \by{mp}{2,5}
+  \have {7} {p \to r}                                           \by{mp}{4,6}
+\end{nd}
+\]
+
+\end{document}

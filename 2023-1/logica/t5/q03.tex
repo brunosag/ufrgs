@@ -1,0 +1,56 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.3in]{geometry}
+\usepackage{titlesec}
+\usepackage{amsmath}
+
+\title{Trabalho V}
+\author{Bruno Samuel A. Gonçalves}
+\date{}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Questão 3}
+
+\noindent Argumento:
+
+\begin{center}
+    \textit{"Todo crocodilo é maior do que qualquer jacaré. Samurai é um crocodilo. Mas existe uma serpente e Samurai não é maior do que esta serpente. Portanto, alguma coisa não é um jacaré."}
+\end{center}
+
+\noindent Constantes:
+
+\begin{center}
+    $s =$ \textit{Samurai}
+\end{center}
+
+\noindent Funções:
+
+\[
+    \emptyset
+\]
+
+\noindent Predicados:
+
+\begin{center}
+    $C^1(x) =$ \textit{x é um crodcodilo} \\
+    $J^1(x) =$ \textit{x é um jacaré}  \\
+    $S^1(x) =$ \textit{x é uma serpente}  \\
+    $M^2(x, y) =$ \textit{x é maior que y}
+\end{center}
+
+\noindent Fórmula:
+
+\begin{gather*}
+    \forall x \forall y ((C(x) \land J(y)) \to M(x, y)), \\
+    C(s), \\
+    \exists x (S(x) \land \neg M(s, x)) \\
+    \vdash \exists x (\neg J(x))
+\end{gather*}
+
+\end{document}

@@ -1,0 +1,60 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.3in]{geometry}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{bm}
+
+\title{Trabalho V}
+\author{Bruno Samuel A. Gonçalves}
+\date{}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Questão 6}
+
+\noindent Fórmula:
+
+\[
+    \neg\neg\forall x. \exists y. \neg R(x,y)
+\]
+
+\noindent 1. Árvore de Sintaxe:
+
+\begin{center}
+\begin{tikzpicture}
+\Tree 
+[.$\neg$
+    [.$\neg$
+        [.$\forall x$
+            [.$\exists y$
+                [.$\neg$
+                    [.$R$
+                        $x$
+                        $y$
+                    ]
+                ]
+            ]
+        ]
+    ]
+]
+\end{tikzpicture}
+\end{center}
+
+\noindent 2. Classificação:
+
+\begin{center}
+    \textbf{Verdadeira} \\
+    $(x = 0, y = 1) \to \bm{\top}$ \\
+    $(x = 1, y = 0) \to \bm{\top}$ \\
+    $(x = 2, y = 1) \to \bm{\top}$ \\
+    $(x = 3, y = 0) \to \bm{\top}$
+\end{center}
+
+\end{document}

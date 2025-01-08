@@ -1,0 +1,126 @@
+; Trabalho Ahmes
+
+; Aluno: Bruno Samuel Ardenghi Gonçalves
+; Cartão: 550402
+
+
+; ALGORITMO: -----------------------------------------------------------------------
+
+; X = A
+; N = 0
+; while (X != 0):
+; 	if (A % X == 0):
+;		N++
+;	X--
+
+
+; ALGORITMO AHMES: -----------------------------------------------------------------
+
+; Xa = Aa
+; Xb = Ab
+; Na, Nb = 0
+; while (Xa != 0 || Xb != 0);
+;
+;	Aa_temp = Aa
+; 	Ab_temp = Ab
+;	while ((Xa < Aa_temp) || ((Aa_temp = Xa) && (Xb <= Ab_temp))):
+;		Ab_temp -= Xb
+;		if (borrow):
+;			Aa_temp--
+;		Aa_temp -= Xa
+;
+;	if (Aa_temp == 0 && Ab_temp == 0):
+;		Nb++
+;		if (carry):
+;			Na++
+;
+;	Xb--
+;	if (borrow):
+;		Xa--;
+
+
+; MNEMÔNICOS: ----------------------------------------------------------------------
+
+inicio:		LDA Aa			; Xa = Aa
+		STA Xa
+		LDA Ab			; Xb = Ab
+		STA Xb
+		LDA cte0		; Na, Nb = 0
+		STA Na
+		STA Nb
+
+while_main:	LDA Xa			; while (Xa != 0 || Xb != 0):
+		JNZ inicio_divisao
+		LDA Xb
+		JNZ inicio_divisao
+		JMP fim
+
+inicio_divisao: LDA Aa			; Aa_temp = Aa
+		STA Aa_temp
+		LDA Ab			; Ab_temp = Ab
+		STA Ab_temp
+
+while_divisao:	LDA Xa			; while ((Xa < Aa_temp) || ((Aa_temp = Xa) && (Xb <= Ab_temp))):
+		SUB Aa_temp
+		JB divisao_b
+		LDA Aa_temp
+		SUB Xa
+		JNZ if_resto
+		LDA Xb
+		SUB Ab_temp
+		JZ divisao_b
+		JNB if_resto
+
+divisao_b:	LDA Ab_temp		; Ab_temp -= Xb
+		SUB Xb
+		STA Ab_temp
+		JNB divisao_a		; if (borrow):
+		LDA Aa_temp		; Aa_temp--
+		SUB cte1
+		STA Aa_temp
+
+divisao_a:	LDA Aa_temp		; Aa_temp -= Xa
+		SUB Xa
+		STA Aa_temp
+		JMP while_divisao	; volta while_divisao
+
+if_resto:	LDA Aa_temp		; if (Aa_temp == 0 && Ab_temp == 0):
+		JNZ iteracao
+		LDA Ab_temp
+		JNZ iteracao
+
+resto:		LDA Nb			; Nb++
+		ADD cte1
+		STA Nb
+		JNC iteracao		; if (carry):
+		LDA Na			; Na++
+		ADD cte1
+		STA Na
+
+iteracao:	LDA Xb			; Xb--
+		SUB cte1
+		STA Xb
+		JNB while_main		; if (borrow):
+		LDA Xa			; Xa--
+		SUB cte1
+		STA Xa
+		JMP while_main		; volta while_main
+
+fim:		HLT
+
+
+; VARIÁVEIS: -----------------------------------------------------------------------
+
+ORG h80
+
+Aa:		db 0
+Ab:		db 1
+Na:		db 0
+Nb:		db 0
+Xa:		db 0
+Xb:		db 0
+Aa_temp:	db 0
+Ab_temp:	db 0
+cte0:		db 0
+cte1:		db 1
+

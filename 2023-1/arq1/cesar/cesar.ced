@@ -1,0 +1,536 @@
+;******************************************************************************
+;
+;	          Trabalho Cesar
+;	Turma A | Prof. Marcelo Johan | 2023/1
+;	Bruno Samuel Ardenghi Gonçalves - 550452
+;
+;******************************************************************************
+;
+;	Áreas de memória
+;
+;	0000 - 7FFF		_KERNEL
+;					Área de Kernel para implementação dos alunos
+;
+;	0100 - 01FF		_VETTAB
+;					Tabela com os vetores das funções do kernel
+;					*** CUIDADO! Esse vetor está no meio da área de código ***
+;
+;	8000 - FF7F		_APP
+;					Área onde será colocado o programa de aplicação.
+;					Esse programa vai fazer o acesso aos periféricos e interrupções, através das funções do Kernel.
+;
+;	FF80 - FFBF 		_IOAREA16
+;					Area de periféricos, acessada na base 16 bits
+;
+;	FFC0 - FFFF		_IOAREA08
+;					Area de periféricos, acessada na base 8 bits
+;
+;******************************************************************************
+
+
+_KERNEL:		equ		h0000
+_VETTAB:		equ		h0100
+_RESET:			equ		_VETTAB+H0100
+_APP:			equ		h8000
+_IOAREA16:		equ		hFF80
+_IOAREA08:		equ		hFFC0
+
+TRUE:			equ		1
+FALSE:			equ		0
+SUCCESS:		equ		0
+ERROR:			equ		hFFFF
+
+STACK:			equ		h7000
+TIMER_LIMIT:		equ		250
+ASCII_MIN:		equ		h20
+ASCII_MAX:		equ		h7A
+
+ENTER:			equ		h0D
+BS:			equ		h08
+CR:			equ		h0D
+LF:			equ		h0A
+FF:			equ		h0C
+
+AREA_ESQUERDA:		equ		0
+AREA_DIREITA:		equ		1
+
+PARAM_RESET:		equ		0
+PARAM_FINISHED:		equ		1
+PARAM_TIME:		equ		2
+PARAM_BUFFER:		equ		3
+PARAM_SIZE:		equ		4
+
+
+;
+;------------------------------------------------------------------------------
+; 	Área reservada para os periféricos
+;------------------------------------------------------------------------------
+
+; Acesso em 16 bits
+		org		_IOAREA16
+		daw		[31]
+IVET:		dw		0				; Vetor de interrupção
+
+; Acesso em 8 bits
+		org		_IOAREA08
+		dab		[23]
+TIMDT:		db		0				; Registro de programação do timer
+INTS:		db		0				; INTERRUPT STATUS: IP x x x . x x IPStec IPStim
+INTE:		db		0				; INTERRUPT ENABLE: IE x x x . x x IEStec IEStim
+TECST:		db		0				; Status do teclado
+TECDT:		db		0				; Dado do teclado
+VISOR:		dab		[36]				; Portas de acesso ao visor
+
+;
+;------------------------------------------------------------------------------
+;	Ponto de entrada do RESET do processador
+;------------------------------------------------------------------------------
+		org		_KERNEL
+		jmp		_RESET
+
+;
+;------------------------------------------------------------------------------
+;	Área do kernel com os vetores das funções do kernel
+;------------------------------------------------------------------------------
+		org		_VETTAB
+
+		dw		kbhit				; WORD	kbhit(void)
+		dw		getchar				; WORD	getchar(void)
+		dw		putchar				; WORD	putchar(WORD area, BYTE caractere)
+								; WORD	putchar(WORD area, BYTE caractere, WORD pos)
+		dw		putmsg				; WORD	putmsg(WORD area, BYTE *msg)
+								; WORD	putmsg(WORD area, BYTE *msg, WORD pos)
+		dw		startline				; WORD	startline(BYTE *buffer, WORD max)
+		dw		getline				; WORD	getline(WORD param)
+
+;
+;------------------------------------------------------------------------------
+;	Código de RESET (BOOT) do processador/interrupção
+;------------------------------------------------------------------------------
+		org		_RESET
+
+; 1) Desabilitar o sistema de interrupções
+		clr		INTE
+
+; 2) Inicializar o stack pointer (SP = R6)
+		mov		#STACK, r6
+
+; 3) Inicializar as variáveis internas usadas pelo sistema de interrupções e periféricos (IVET, INTE, etc.)
+		mov		#isr, IVET
+		clr		INTS
+
+; 4) Inicializar as variáveis internas do kernel
+
+startline_timer:	dw		0
+buffer_address:	dw		0
+buffer_max:	dw		0
+cursor:		dw		0
+writing_mode:	dw		0
+
+		clr		startline_timer
+		clr		buffer_address
+		clr		buffer_max
+		clr		cursor
+		clr		writing_mode
+
+; 5) Inicializar o teclado zerando o byte de estado (TECST, endereço 65498)
+		clr		TECST
+
+; 6) Inicializar o timer
+		mov		#TIMER_LIMIT, TIMDT
+
+; 7) Limpar o visor
+		mov		#36, r0
+		mov		#VISOR, r1
+	loop_limpar_visor:
+		mov		#' ', (r1)
+		inc		r1
+		sob		r0, loop_limpar_visor
+
+; 8) Habilitar interrupções
+		mov		#h83, INTE
+
+; 9) Retornar para o programa de aplicação com um desvio para o endereço _APP da memória
+		jmp		_APP
+		
+;
+;------------------------------------------------------------------------------
+; 	Interrupt Service Routine (ISR)
+;------------------------------------------------------------------------------
+isr:
+		tst		writing_mode			; Verificar se entrada de caracteres está ativada
+		beq		isr_end
+
+		and		#h7F, INTE			; Desabilitar interrupções
+		mov		r0, -(r6)				; Salvar registradores na pilha
+		mov		r1, -(r6)
+		mov		r2, -(r6)
+		mov		r3, -(r6)
+		mov		r4, -(r6)
+		mov		r5, -(r6)
+
+	keyboard_check:
+		mov		INTS, r0				; Verificar INT do teclado
+		and		#2, r0
+		beq		timer_check
+		jsr		r7, isr_tec				; Lidar com INT do teclado
+		and		#hFD, INTS			; Desligar bit INT do teclado
+
+	timer_check:
+		mov		INTS, r0				; Verificar INT do timer
+		and		#1, r0
+		beq		isr_return
+		jsr		r7, isr_tim				; Lidar com INT do timer
+		and		#hFE, INTS			; Desligar bit INT do timer
+
+	isr_return:
+		mov		(r6)+, r5				; Retornar registradores da pilha
+		mov		(r6)+, r4
+		mov		(r6)+, r3
+		mov		(r6)+, r2
+		mov		(r6)+, r1
+		mov		(r6)+, r0
+		or		#80, INTE			; Habilitar interrupções
+
+	isr_end:
+		clr		INTS
+		rti
+
+;
+;------------------------------------------------------------------------------
+; 	Tratamento de interrupção do teclado
+;------------------------------------------------------------------------------
+isr_tec:
+		cmp		TECDT, #ENTER			; Verificar ENTER
+		beq		disable_writing_mode
+		cmp		TECDT, #BS			; Verificar BS
+		beq		isr_backspace
+		mov		TECDT, r4			; Verificar caractere válido
+		jsr		r7, valid_char
+		tst		r0
+		beq		isr_tec_end
+
+		mov		#VISOR, r0			; Escrever caractere no visor
+		add		cursor, r0
+		mov		TECDT, (r0)
+		mov		buffer_address, r0			; Escrever caractere no buffer
+		add		cursor, r0
+		dec		r0
+		and		#hFF00, (r0)
+		or		TECDT, (r0)
+		inc		cursor				; Incrementar cursor
+		cmp		cursor, buffer_max			; Verificar limite do buffer
+		beq		disable_writing_mode
+		br		isr_tec_end
+
+	isr_backspace:
+		tst		cursor				; Verificar cursor na posição mais à esquerda
+		beq		isr_tec_end
+		dec		cursor				; Decrementar cursor
+		mov		cursor, r0
+		mov		#' ', VISOR(r0)			; Apagar caractere do visor
+		mov		buffer_address, r1			; Apagar caractere do buffer
+		add		r0, r1
+		and		#h00FF, (r1)
+		or		#h2000, (r1)
+		br		isr_tec_end
+
+	disable_writing_mode:
+		mov		#FALSE, writing_mode
+
+	isr_tec_end:
+		clr		TECST				; Resetar status do teclado
+		rts 		r7
+
+;
+;------------------------------------------------------------------------------
+; 	Tratamento de interrupção do timer
+;------------------------------------------------------------------------------
+isr_tim:
+		clr		TIMDT				; Resetar timer
+		add		#TIMER_LIMIT, startline_timer	; Adicionar TIMER_LIMIT ao acumulador
+		rts		r7
+
+;
+;------------------------------------------------------------------------------
+; WORD	kbhit(void)
+;------------------------------------------------------------------------------
+kbhit:
+		tst		writing_mode			; Verificar se entrada de caracteres está ativada
+		bne		kbhit_false
+
+		tst		TECST				; Verificar status do teclado
+		beq		kbhit_false	
+
+	kbhit_true:
+		mov		#TRUE, r0
+		rts		r7
+
+	kbhit_false:
+		mov		#FALSE, r0
+		rts		r7
+
+;
+;------------------------------------------------------------------------------
+; WORD	getchar(void)
+;------------------------------------------------------------------------------
+getchar:
+		tst		writing_mode			; Verificar se entrada de caracteres está ativada
+		bne		getchar_error
+
+		tst		TECDT				; Verificar se há dado do teclado
+		beq		getchar				; Voltar para início da função, caso negativo
+		mov		TECDT, r0			; Retornar dado do teclado
+		clr		TECDT				; Resetar dado do teclado
+		clr		TECST				; Resetar status do teclado
+
+	getchar_success:
+		rts		r7
+
+	getchar_error:
+		mov		#ERROR, r0
+		rts		r7
+
+;
+;------------------------------------------------------------------------------
+; WORD	putchar(WORD area, BYTE caractere)
+; WORD	putchar(WORD area, BYTE caractere, WORD pos)
+;------------------------------------------------------------------------------
+putchar:
+		tst		r5				; Identificar área a ser escrita
+		bne		putchar_right			; Lidar com área direita
+
+	putchar_left:
+		tst		writing_mode			; Verificar se entrada de caracteres está ativada
+		bne		putchar_error
+
+		cmp		r4, #BS				; Verificar 'backspace'
+		beq		backspace
+		cmp		r4, #CR				; Verificar 'carriage return'
+		beq		carriage_return
+		cmp		r4, #LF				; Verificar 'line feed'
+		beq		line_feed
+		jsr		r7, valid_char			; Verificar caractere válido
+		tst		r0
+		beq		putchar_error
+		cmp		cursor, #24			; Verificar cursor no fim da área
+		beq		putchar_error
+
+		mov		cursor, r0
+		mov		r4, VISOR(r0)			; Escrever caractere no visor
+		inc		cursor				; Incrementar cursor
+		br		putchar_success
+
+	putchar_right:
+		cmp		r4, #FF				; Verificar 'form feed'
+		beq		form_feed
+		jsr		r7, valid_char			; Verificar caractere válido
+		tst		r0
+		beq		putchar_error
+		cmp		r3, #0				; Verificar posição válida ([0, 11])
+		blt		putchar_error
+		cmp		r3, #11
+		bgt		putchar_error
+
+		mov		r3, r1				; Ajustar posição para área direita
+		add		#24, r1
+		mov		r4, VISOR(r1)			; Escrever caractere na posição
+		br		putchar_success
+
+	backspace:
+		tst		cursor				; Verificar cursor na posição mais à esquerda
+		beq		putchar_error
+		dec		cursor				; Mover cursor para esquerda
+		br		putchar_success
+
+	carriage_return:
+		clr		cursor				; Mover cursor para posição mais à esquerda
+		br		putchar_success
+
+	line_feed:
+		jsr		r7, clear_left			; Limpar área esquerda
+		br		putchar_success
+
+	form_feed:
+		jsr		r7, clear_right			; Limpar área direita
+		br		putchar_success
+
+	putchar_error:
+		mov		#ERROR, r0
+		rts		r7
+
+	putchar_success:
+		mov		#SUCCESS, r0
+		rts		r7
+
+;
+;------------------------------------------------------------------------------
+; WORD	putmsg(WORD area, BYTE *msg)
+; WORD	putmsg(WORD area, BYTE *msg, WORD pos)
+;------------------------------------------------------------------------------
+putmsg:
+		mov		r4, r2				; Copiar endereço da string
+		dec		r2
+		cmp		r5, #AREA_DIREITA		; Verificar se área é direita
+		beq		putmsg_loop
+		tst		writing_mode			; Verificar se entrada de caracteres está ativada
+		bne		putmsg_error
+		
+	putmsg_loop:
+		mov		(r2), r4				; Obter caractere atual
+		and		#hFF, r4
+		tst		r4				; Verificar fim da string
+		beq		putmsg_success
+		jsr		r7, putchar			; Tratar caractere atual
+		inc		r2				; Selecionar próximo caractere
+		cmp		r4, #FF				; Verifcar 'form feed'
+		beq		putmsg_loop
+		inc		r3				; Incrementar posição
+		br		putmsg_loop
+
+	putmsg_error:
+		mov		#ERROR, r0
+		rts		r7
+		
+	putmsg_success:
+		mov		#SUCCESS, r0
+		rts		r7
+
+;
+;------------------------------------------------------------------------------
+; WORD	startline(BYTE *buffer, WORD max)
+;------------------------------------------------------------------------------
+startline:
+		mov		r5, buffer_address			; Salvar endereço do buffer
+		mov		r4, buffer_max			; Salvar comprimento máximo do buffer
+		jsr		r7, clear_buffer
+		jsr		r7, clear_left
+		mov		#TRUE, writing_mode		; Ativar entrada de caracteres
+		clr		startline_timer			; Zerar timer do "startline"
+		rts		r7
+
+;
+;------------------------------------------------------------------------------
+; WORD	getline(WORD param)
+;------------------------------------------------------------------------------
+getline:
+		mov		#-1, r1				; Inicializar contador do "param_size"
+
+		cmp		r5, #PARAM_RESET		; Verificar "param_reset"
+		beq		handle_param_reset
+		cmp		r5, #PARAM_FINISHED		; Verificar "param_finished"
+		beq		handle_param_finished
+		cmp		r5, #PARAM_TIME			; Verificar "param_time"
+		beq		handle_param_time
+		cmp		r5, #PARAM_BUFFER		; Verificar "param_buffer"
+		beq		handle_param_buffer
+		cmp		r5, #PARAM_SIZE			; Verificar "param_size"
+		beq		handle_param_size
+		
+	handle_param_reset:
+		tst		writing_mode			; Verificar se entrada de caracteres está ativada
+		beq		getline_error
+		clr		writing_mode			; Desativar entrada de caracteres
+		br		getline_success
+		
+	handle_param_finished:
+		tst		writing_mode			; Retornar se entrada de caracteres está ativada
+		beq		getline_success
+		br		getline_error
+	
+	handle_param_time:
+		clr		r0
+		mov		startline_timer, r0			; Retornar tempo decorrido da "startline"
+		rts		r7
+	
+	handle_param_buffer:
+		tst		buffer_address			; Verificar se há endereço do buffer
+		beq		getline_error
+		mov		buffer_address, r0			; Retornar endereço do buffer
+		rts		r7
+
+	handle_param_size:
+		inc		r1				; Contar número de caracteres no buffer
+		mov		buffer_address, r2
+		add		r1, r2
+		mov		(r2), r2
+		and		#hFF00, r2
+		cmp		r2, #h2000
+		bne		handle_param_size
+		mov		r1, r0				; Retornar comprimento do buffer
+		rts		r7
+		
+	getline_error:
+		mov		#ERROR, r0
+		rts		r7
+		
+	getline_success:
+		mov		#SUCCESS, r0
+		rts		r7
+
+;
+;------------------------------------------------------------------------------
+; int	valid_char(BYTE caractere)
+;------------------------------------------------------------------------------
+valid_char:
+		cmp		r4, #ASCII_MIN			; Verificar caractere < ASCII_MIN
+		blt		valid_char_false
+		cmp		r4, #ASCII_MAX			; Verificar caractere > ASCII_MAX
+		bgt		valid_char_false
+
+	valid_char_true:
+		mov		#TRUE, r0
+		rts		r7
+
+	valid_char_false:
+		mov		#FALSE, r0
+		rts		r7
+
+;
+;------------------------------------------------------------------------------
+; void	clear_left(void)
+;------------------------------------------------------------------------------
+clear_left:
+		mov		#24, r0
+		mov		#VISOR, r1
+
+	clear_left_loop:
+		mov		#' ', (r1)				; Substituir caractere atual por SPACE
+		inc		r1				; Próximo caractere
+		sob		r0, clear_left_loop
+
+		rts r7
+
+;
+;------------------------------------------------------------------------------
+; void	clear_right(void)
+;------------------------------------------------------------------------------
+clear_right:
+		mov		#12, r0
+		mov		#VISOR, r1
+		add		#24, r1
+
+	clear_right_loop:
+		mov		#' ', (r1)				; Substituir caractere atual por SPACE
+		inc		r1				; Próximo caractere
+		sob		r0, clear_right_loop
+
+		rts r7
+
+;
+;------------------------------------------------------------------------------
+; void	clear_buffer(void)
+;------------------------------------------------------------------------------
+clear_buffer:
+		mov		#24, r0
+		mov		buffer_address, r1
+
+	clear_buffer_loop:
+		and		#h00FF, (r1)			; Substituir caractere atual por SPACE
+		or		#h2000, (r1)
+		inc		r1				; Próximo caractere
+		sob		r0, clear_buffer_loop
+
+		rts r7
+
+

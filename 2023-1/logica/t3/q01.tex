@@ -1,0 +1,35 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.3in]{geometry}
+\usepackage{titlesec}
+\usepackage{fitch}
+
+\title{Trabalho III}
+\author{Bruno Samuel A. Gonçalves}
+\date{}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Questão 1}
+
+\noindent Sequente:
+
+\[ p \to (p \to q), p \vdash_{AX} q \]
+
+\noindent Dedução:
+
+\[
+\begin{nd}
+  \have {1} {p \to (p \to q)}   \by{P}{}
+  \have {2} {p}                 \by{P}{}
+  \have {3} {p \to q}           \by{mp}{1,2}
+  \have {4} {q}                 \by{mp}{2,3}
+\end{nd}
+\]
+
+\end{document}

@@ -1,0 +1,54 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.3in]{geometry}
+\usepackage{titlesec}
+\usepackage{amsmath}
+
+\title{Trabalho V}
+\author{Bruno Samuel A. Gonçalves}
+\date{}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Questão 1}
+
+\noindent Argumento:
+
+\begin{center}
+    \textit{"Todo peixe vive na água, tudo aquilo que vive na água tem sangue frio. Portanto, todo peixe tem sangue frio."}
+\end{center}
+
+\noindent Constantes:
+
+\begin{center}
+    $a =$ \textit{água}
+\end{center}
+
+\noindent Funções:
+
+\[
+    \emptyset
+\]
+
+\noindent Predicados:
+
+\begin{center}
+    $P^1(x) =$ \textit{x é peixe} \\
+    $V^2(x, y) =$ \textit{x vive em y} \\
+    $S^1(x) =$ \textit{x tem sangue frio}
+\end{center}
+
+\noindent Fórmula:
+
+\begin{gather*}
+    \forall x(P(x) \to V(x, a)), \\
+    \forall x(V(x, a) \to S(x)) \\
+    \vdash \forall x(P(x) \to S(x))
+\end{gather*}
+
+\end{document}

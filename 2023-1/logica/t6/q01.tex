@@ -1,0 +1,52 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.3in]{geometry}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{fitch}
+
+\title{Trabalho VI}
+\author{Bruno Samuel A. Gonçalves}
+\date{}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Questão 1}
+
+\noindent Argumento:
+
+\begin{center}
+    \textit{"Sócrates é homem. Todo homem é mortal. Logo, Sócrates é mortal."}
+\end{center}
+
+\noindent Assinatura:
+
+\[
+    \Sigma = \{\{s\}, \{\}, \{H^1(x), M^1(x)\}\}
+\]
+
+\noindent Sequente:
+
+\begin{gather*}
+    H(s), \forall x(M(x)) \vdash M(s)
+\end{gather*}
+
+\noindent Dedução:
+
+\[
+\begin{nd}
+    \have{1} {G(c, a) \land G(c, t)} \p
+    \have{2} {\neg \exists x \exists y (G(x, y) \land F(y, z))} \p
+    \have{3} {F(s, a)} \p
+    \open
+    \have{4} {G(c, s)} \hip
+    \have{5} {G(c, a)} \ede{1}
+\end{nd}
+\]
+
+\end{document}

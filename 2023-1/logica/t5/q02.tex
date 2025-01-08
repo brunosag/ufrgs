@@ -1,0 +1,55 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.3in]{geometry}
+\usepackage{titlesec}
+
+\title{Trabalho V}
+\author{Bruno Samuel A. Gonçalves}
+\date{}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Questão 2}
+
+\noindent Argumento:
+
+\begin{center}
+    \textit{"Se o programa é eficiente, então ele executa rapidamente. Ou o programa é eficiente, ou ele tem algum bug. No entanto, o programa não executa rapidamente. Logo, ele tem um bug."}
+\end{center}
+
+\noindent Constantes:
+
+\begin{center}
+    $p =$ \textit{programa}
+\end{center}
+
+\noindent Funções:
+
+\[
+    \emptyset
+\]
+
+\noindent Predicados:
+
+\begin{center}
+    $E^1(x) =$ \textit{x é eficiente} \\
+    $R^1(x) =$ \textit{x executa rapidamente}  \\
+    $B^1(x) =$ \textit{x tem bug}
+\end{center}
+
+\noindent Fórmula:
+
+\[ 
+    E(a) \to R(a),
+    E(a) \lor B(a),
+    \neg R(a)
+    \vdash
+    B(a)
+\]
+
+\end{document}

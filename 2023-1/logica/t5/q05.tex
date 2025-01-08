@@ -1,0 +1,56 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.3in]{geometry}
+\usepackage{titlesec}
+\usepackage{amsmath}
+
+\title{Trabalho V}
+\author{Bruno Samuel A. Gonçalves}
+\date{}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Questão 5}
+
+\noindent Argumento:
+
+\begin{center}
+    \textit{"Filósofos são divertidos e bons com pequenos animais. Alexandre não é bom com pequenos animais. Desta forma, Alexandre não é um filósofo."}
+\end{center}
+
+\noindent Constantes:
+
+\begin{center}
+    $a =$ \textit{Alexandre}
+\end{center}
+
+\noindent Funções:
+
+\[
+    \emptyset
+\]
+
+\noindent Predicados:
+
+\begin{center}
+    $F^1(x) =$ \textit{x é um filósofo} \\
+    $D^1(x) =$ \textit{x é divertido} \\
+    $A^1(x) =$ \textit{x é um animal} \\
+    $P^1(x) =$ \textit{x é pequeno} \\
+    $B^1(x) =$ \textit{x é bom com y}
+\end{center}
+
+\noindent Fórmula:
+
+\begin{gather*}
+    \forall x \forall y ((F(x) \land A(y) \land P(y)) \to (D(x) \land B(x, y))), \\
+    \forall x ((A(x) \land P(x)) \to \neg B(a, x)) \\
+    \vdash \neg F(a)
+\end{gather*}
+
+\end{document}

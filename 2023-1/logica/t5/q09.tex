@@ -1,0 +1,47 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.3in]{geometry}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{bm}
+
+\title{Trabalho V}
+\author{Bruno Samuel A. Gonçalves}
+\date{}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{}{0em}{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Questão 9}
+
+\noindent Fórmula:
+
+\[
+    P(x)
+\]
+
+\noindent 1. Árvore de Sintaxe:
+
+\begin{center}
+\begin{tikzpicture}
+\Tree 
+[.$P$
+    $x$
+]
+\end{tikzpicture}
+\end{center}
+
+\noindent 2. Classificação:
+
+\begin{center}
+    \textbf{Contingência} \\
+    $x = 0 \to \bm{\top}$ \\
+    $x = 1 \to \bm{\bot}$
+\end{center}
+
+\end{document}

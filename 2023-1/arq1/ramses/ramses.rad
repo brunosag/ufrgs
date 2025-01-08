@@ -1,0 +1,59 @@
+ORG 	240
+
+SFILE:		DB 	0
+SLOOK:		DB	0
+SRES:		DB	0
+
+ORG	128
+
+SFILE_TEMP:	DB	0
+SFILE_TEMP2:	DB 	0
+SLOOK_TEMP:	DB	0
+TEMP:		DB	0
+
+ORG 0
+
+start:
+	LDR	A, SFILE		; char *SFILE_TEMP = SFILE
+	STR	A, SFILE_TEMP
+	STR	A, SFILE_TEMP2		; char *SFILE_TEMP2 = SFILE
+	LDR	B, SLOOK		; char *SLOOK_TEMP = SLOOK
+	STR	B, SLOOK_TEMP
+
+loop:
+	LDR	B, SLOOK_TEMP,I		; if (*SLOOK_TEMP == '\0')
+	JZ	found		; 	;	go to found
+	LDR	A, SFILE_TEMP2,I	; if (*SFILE_TEMP2 == '\0')
+	JZ	not_found		; 	go to not_found
+	STR	B, TEMP			; if (*SLOOK_TEMP == *SFILE_TEMP2)
+	SUB	A, TEMP
+	JZ	next_sub		;	go to next_sub
+
+next_str:
+	LDR	A, SFILE_TEMP		; SFILE_TEMP, SFILE_TEMP2 = SFILE_TEMP + 1
+	ADD	A, #1
+	STR	A, SFILE_TEMP
+	STR	A, SFILE_TEMP2
+	LDR	A, SLOOK		; SLOOK_TEMP = SLOOK
+	STR	A, SLOOK_TEMP
+	JMP	loop			; go to loop
+
+next_sub:
+	LDR	A, SFILE_TEMP2		; SFILE_TEMP2++
+	ADD	A, #1
+	STR	A, SFILE_TEMP2
+	LDR	A, SLOOK_TEMP		; SLOOK_TEMP++
+	ADD	A, #1
+	STR	A, SLOOK_TEMP
+	JMP	loop			; go to loop
+
+found:
+	LDR	A, SFILE_TEMP		; SRES = SFILE_TEMP
+	JMP	end
+
+not_found:
+	LDR	A, #0			; SRES = '\0'
+
+end:
+	STR	A, SRES
+	HLT
