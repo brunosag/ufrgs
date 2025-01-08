@@ -1,0 +1,36 @@
+//-----------------------------
+// Questão 1, item a
+//-----------------------------
+// f(x) = {
+//     3  se x par
+//     1  caso contrário
+// }
+//-----------------------------
+
+// move : A -> B -> void
+// Move o valor de A para B, zerando A.
+operation move(A, B) {
+  1: if zero A then goto 0 else goto 2
+  2: do dec  A goto 3
+  3: do inc  B goto 1
+}
+
+// even : A -> B -> Bool
+// Retorna true caso A seja par, false caso conrário.
+test even(A, B) {
+  1: do move(A, B) goto 2
+  2: if zero B then goto true  else goto 3
+  3: do dec  B goto 4
+  4: do inc  A goto 5
+  5: if zero B then goto false else goto 6
+  6: do dec  B goto 7
+  7: do inc  A goto 2
+}
+
+main {
+  1: do move(X, A) goto 2
+  2: if even(A, B) then goto 3 else goto 4
+  3: do add Y 3 goto 0
+  4: do add Y 1 goto 0
+}
+

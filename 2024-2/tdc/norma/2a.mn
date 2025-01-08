@@ -1,0 +1,71 @@
+//-----------------------------
+// Questão 2, item a
+//-----------------------------
+// f(x,y) = y
+//-----------------------------
+
+// A := 0
+operation clear(A) {
+  1: if zero A then goto 0 else goto 2
+  2: do dec A goto 1
+}
+
+// A := A + B; B := 0
+operation dump(A, B) {
+  1: if zero B then goto 0 else goto 2
+  2: do dec B goto 3
+  3: do inc A goto 1
+}
+
+// A := A + B (usando B_1)
+operation add(A, B, B_1) {
+  1: do dump(B_1, B) goto 2
+  2: if zero B_1 then goto 0 else goto 3
+  3: do dec B_1 goto 4
+  4: do inc A goto 5
+  5: do inc B goto 2
+}
+
+// A := B (usando B_1)
+operation copy(A, B, B_1) {
+  1: do clear(A) goto 2
+  2: do add(A, B, B_1) goto 0
+}
+
+// A := ⌊A / 2⌋ (usando A_1)
+operation div_2(A, A_1) {
+  1: do dump(A_1, A) goto 2
+  2: if zero A_1 then goto 0 else goto 3
+  3: do dec A_1 goto 4
+  4: if zero A_1 then goto 0 else goto 5 
+  5: do dec A_1 goto 6
+  6: do inc A goto 2
+}
+
+// A = 2k | k ∈ ℕ⁺
+test is_positive_even(A, A_1) {
+  1: do dump(A_1, A) goto 2
+  2: do dec A_1 goto 3
+  3: do inc A goto 4
+  4: if zero A_1 then goto false else goto 5
+  5: do dec A_1 goto 6
+  6: do inc A goto 7
+  7: if zero A_1 then goto true else goto 2
+}
+
+// A := B[1] | B = cod(B[0], B[1]) (usando AUX1)
+operation second(A, B, AUX1) {
+  1: do copy(A, B, AUX1) goto 2
+  2: if is_positive_even(A, AUX1) then goto 3 else goto 4
+  3: do div_2(A, AUX1) goto 2
+  4: do dec A goto 5
+  5: do div_2(A, AUX1) goto 0
+}
+
+main {
+  1: do copy(B, X, AUX1) goto 2
+  2: do second(A, B, AUX1) goto 3
+  3: do dump(Y, A) goto 4
+  4: do clear(B) goto 0
+}
+

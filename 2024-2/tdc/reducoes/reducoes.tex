@@ -1,0 +1,318 @@
+\documentclass{article}
+
+\usepackage{geometry}
+\usepackage{titling}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{stmaryrd}
+\usepackage{enumitem}
+\usepackage{xparse}
+
+% -----------------------------------------------------------------------------
+
+\NewDocumentCommand{\institute}{m}{\gdef\theinstitute{#1}}
+\NewDocumentCommand{\course}{m}{\gdef\thecourse{#1}}
+\NewDocumentCommand{\professor}{m}{\gdef\theprofessor{#1}}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \begin{center}
+            \large{\scshape{\theinstitute}} \\
+            \vspace*{\fill}
+            \Large{\thecourse} \\[2pt]
+            \Huge{\thetitle} \\[36pt]
+            \large{\theauthor} \\
+            \vspace*{\fill}
+            \large{\theprofessor} \\[2pt]
+            \large{\thedate}
+        \end{center}
+    \end{titlepage}
+}
+
+\NewDocumentCommand{\problemBox}{m m m}{
+    \noindent\fbox{
+        \begin{minipage}{0.95\linewidth}
+            \noindent$\mathbf{#1}$ \\[4pt]
+            \textbf{Entrada}: #2 \\[2pt]
+            \textbf{Pergunta}: #3
+        \end{minipage}
+    }
+}
+
+% -----------------------------------------------------------------------------
+
+\geometry{
+    paper=a4paper,
+    top=2.5cm,
+    bottom=3cm,
+    left=2.5cm,
+    right=2.5cm,
+    headheight=14pt,
+    footskip=1.5cm,
+    headsep=1.2cm
+}
+
+\setlength{\fboxsep}{6pt}
+
+\institute{
+    Universidade Federal do Rio Grande do Sul \\
+    Instituto de Informática
+}
+
+\course{Teoria da Computação N - INF05501}
+
+\professor{Prof. Rodrigo Machado}
+
+\title{Trabalho 4 - Redução de Problemas}
+
+\author{
+    Bruno Samuel Ardenghi Gonçalves — 550452 \\[2pt]
+    João Pedro Müller Alvarenga — 577252 \\[2pt]
+    Matheus Luís de Castro — 314943
+}
+
+\date{2024/2}
+
+%------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+
+%------------------------------------------------------------------------------
+%    1
+%------------------------------------------------------------------------------
+
+\section{}
+
+\vspace{6pt}
+
+\problemBox
+{PP}
+{um par $(M, w)$, sendo $M$ uma máquina de Turing sobre o
+alfabeto $\Sigma$, e $w \in \Sigma^{*}$ uma palavra de entrada para $M$.}
+{$w \in (\mathrm{ACEITA}(M) \cup \mathrm{REJEITA}(M))$?}
+
+\vspace{8pt}
+
+\problemBox
+{PAT}
+{uma máquina de Turing $M$.}
+{$\mathrm{ACEITA}(M) = \Sigma^{*}$?}
+
+\vspace{10pt}
+
+\newtheorem*{theorem}{Teorema}
+\begin{theorem}
+    $\mathrm{PAT}$ é indecidível.
+\end{theorem}
+
+\renewcommand{\proofname}{\textbf{Demonstração}}
+\begin{proof}
+    Vamos construir uma redução $r : \mathrm{PP} \Rightarrow
+    \mathrm{PAT}$ tal que, dada uma instância $(M, w)$ de
+    $\mathrm{PP}$, produzimos uma nova máquina de Turing $M'$ como
+    entrada para $\mathrm{PAT}$. A redução deve satisfazer:
+
+    $$(M, w) \in \mathcal{Y}(\mathrm{PP})
+    \iff M' \in \mathcal{Y}(\mathrm{PAT})$$.
+
+    \noindent A máquina $M'$ opera da seguinte forma para uma entrada $t$:
+
+    \begin{enumerate}[itemsep={2pt}, topsep={4pt}, parsep={0pt},
+            label={\textbf{\arabic{*}.}}]
+        \item Simula $M$ com entrada $w$:
+            \begin{itemize}
+                \item Se $M$ para (aceitando ou rejeitando), aceita.
+                \item Se $M$ não para, $M'$ entra em loop infinito.
+            \end{itemize}
+    \end{enumerate}
+
+    \vspace{8pt}
+
+    \noindent Agora mostramos que $r$ é uma redução correta:
+
+    \begin{itemize}[itemsep={2pt}, topsep={4pt}]
+        \item \textbf{Caso 1:} Se $(M, w) \in
+            \mathcal{Y}(\mathrm{PP})$, ou seja, $M$ para com $w$,
+            então $M'$ aceita qualquer $t \in \Sigma^{*}$. Assim,
+            $\mathrm{ACEITA}(M') = \Sigma^{*}$ e, portanto, $M' \in
+            \mathcal{Y}(\mathrm{PAT})$.
+        \item \textbf{Caso 2:} Se $(M, w) \in
+            \mathcal{N}(\mathrm{PP})$, ou seja, $M$ não para com
+            $w$, então $M'$ entra em loop infinito para qualquer $t
+            \in \Sigma^{*}$. Assim, $\mathrm{ACEITA}(M') = \emptyset
+            \neq \Sigma^{*}$ e, portanto, $M' \in \mathcal{N}(\mathrm{PAT})$.
+    \end{itemize}
+
+    \vspace{8pt}
+
+    \noindent Como a redução $r$ está corretamente definida e sabemos
+    que $\mathrm{PP}$ é
+    indecidível, segue que $\mathrm{PAT}$ também é indecidível.
+\end{proof}
+
+%------------------------------------------------------------------------------
+%    2
+%------------------------------------------------------------------------------
+
+\newpage
+
+\section{}
+
+\vspace{6pt}
+
+\problemBox
+{PP}
+{um par $(M, w)$, sendo $M$ uma máquina de Turing sobre o
+alfabeto $\Sigma$, e $w \in \Sigma^{*}$ uma palavra de entrada para $M$.}
+{$w \in (\mathrm{ACEITA}(M) \cup \mathrm{REJEITA}(M))$?}
+
+\vspace{8pt}
+
+\problemBox
+{PAPV}
+{uma máquina de Turing $M$ sobre alfabeto
+$\Sigma$.}
+{$\varepsilon \in \mathrm{ACEITA}(M)$?}
+
+\vspace{10pt}
+
+\begin{theorem}
+    $\mathrm{PAPV}$ é indecidível.
+\end{theorem}
+
+\renewcommand{\proofname}{\textbf{Demonstração}}
+\begin{proof}
+    Vamos construir uma redução $r : \mathrm{PP} \Rightarrow
+    \mathrm{PAPV}$ tal que, dada uma instância $(M, w)$ de
+    $\mathrm{PP}$, produzimos uma nova máquina de Turing $M'$ como
+    entrada para $\mathrm{PAPV}$. A redução deve satisfazer:
+
+    $$(M, w) \in \mathcal{Y}(\mathrm{PP})
+    \iff M' \in \mathcal{Y}(\mathrm{PAPV})$$.
+
+    \noindent A máquina $M'$ opera da seguinte forma para uma entrada $t$:
+
+    \begin{enumerate}[itemsep={2pt}, topsep={4pt}, parsep={0pt},
+            label={\textbf{\arabic{*}.}}]
+        \item Simula $M$ com entrada $w$:
+            \begin{itemize}
+                \item Se $M$ para (aceitando ou rejeitando), aceita.
+                \item Se $M$ não para, $M'$ entra em loop infinito.
+            \end{itemize}
+    \end{enumerate}
+
+    \vspace{8pt}
+
+    \noindent Agora mostramos que $r$ é uma redução correta:
+
+    \begin{itemize}[itemsep={2pt}, topsep={4pt}]
+        \item \textbf{Caso 1:} Se $(M, w) \in
+            \mathcal{Y}(\mathrm{PP})$, ou seja, $M$ para com $w$,
+            então $M'$ aceita qualquer $t \in \Sigma^{*}$, incluindo
+            $\varepsilon$. Assim, $\varepsilon \in
+            \mathrm{ACEITA}(M')$ e, portanto, $M' \in
+            \mathcal{Y}(\mathrm{PAPV})$.
+        \item \textbf{Caso 2:} Se $(M, w) \in
+            \mathcal{N}(\mathrm{PP})$, ou seja, $M$ não para com
+            $w$, então $M'$ entra em loop infinito para qualquer $t
+            \in \Sigma^{*}$, incluindo $\varepsilon$. Assim,
+            $\varepsilon \notin \mathrm{ACEITA}(M')$ e, portanto, $M'
+            \in \mathcal{N}(\mathrm{PAPV})$.
+    \end{itemize}
+
+    \vspace{8pt}
+
+    \noindent Como a redução $r$ está corretamente definida e sabemos
+    que $\mathrm{PP}$ é
+    indecidível, segue que $\mathrm{PAPV}$ também é indecidível.
+\end{proof}
+
+%------------------------------------------------------------------------------
+%    3
+%-----------------------------------------------------------------------------
+
+\newpage
+
+\section{}
+
+\vspace{6pt}
+
+\problemBox
+{PP}
+{um par $(M, w)$, sendo $M$ uma máquina de Turing sobre o
+alfabeto $\Sigma$, e $w \in \Sigma^{*}$ uma palavra de entrada para $M$.}
+{$w \in (\mathrm{ACEITA}(M) \cup \mathrm{REJEITA}(M))$?}
+
+\vspace{8pt}
+
+\problemBox
+{PLAU}
+{uma máquina de Turing $M$ sobre alfabeto $\Sigma$.}
+{$\mathrm{ACEITA}(M) = \{w\}$ (conjunto unitário contendo $w$), para
+um $w \in \Sigma^{*}$ qualquer?}
+
+\vspace{10pt}
+
+\begin{theorem}
+    $\mathrm{PLAU}$ é indecidível.
+\end{theorem}
+
+\renewcommand{\proofname}{\textbf{Demonstração}}
+\begin{proof}
+    Vamos construir uma redução $r : \mathrm{PP} \Rightarrow
+    \mathrm{PLAU}$ tal que, dada uma instância $(M, w)$ de
+    $\mathrm{PP}$, produzimos uma nova máquina de Turing $M'$ como
+    entrada para $\mathrm{PLAU}$. A redução deve satisfazer:
+
+    $$(M, w) \in \mathcal{Y}(\mathrm{PP})
+    \iff M' \in \mathcal{Y}(\mathrm{PLAU})$$.
+
+    \noindent A máquina $M'$ opera da seguinte forma para uma entrada $t$:
+
+    \begin{enumerate}[itemsep={2pt}, topsep={4pt}, parsep={0pt},
+            label={\textbf{\arabic{*}.}}]
+        \item Verifica se $t = w$:
+            \begin{itemize}
+                \item Se $t = w$, continua.
+                \item Se $t \neq w$, rejeita.
+            \end{itemize}
+        \item Simula $M$ com entrada $w$:
+            \begin{itemize}
+                \item Se $M$ para (aceitando ou rejeitando), aceita.
+                \item Se $M$ não para, $M'$ entra em loop infinito.
+            \end{itemize}
+    \end{enumerate}
+
+    \vspace{8pt}
+
+    \noindent Agora mostramos que $r$ é uma redução correta:
+
+    \begin{itemize}[itemsep={2pt}, topsep={4pt}]
+        \item \textbf{Caso 1:} Se $(M, w) \in
+            \mathcal{Y}(\mathrm{PP})$, ou seja, $M$ para com $w$,
+            então $M'$ aceita $t$ se, e somente se, $t = w$. Assim,
+            $\mathrm{ACEITA}(M') = \{w\}$ e, portanto, $M' \in
+            \mathcal{Y}(\mathrm{PLAU})$.
+
+        \item \textbf{Caso 2:} Se $(M, w) \in
+            \mathcal{N}(\mathrm{PP})$, ou seja, $M$ não para com $w$,
+            então $M'$ rejeita para entradas diferentes de $w$ ou
+            entra em loop infinito para $t = w$. Assim,
+            $\mathrm{ACEITA}(M') = \emptyset$ e, portanto, $M' \in
+            \mathcal{N}(\mathrm{PLAU})$.
+    \end{itemize}
+
+    \vspace{8pt}
+
+    \noindent Como a redução $r$ está corretamente definida e sabemos
+    que $\mathrm{PP}$ é
+    indecidível, segue que $\mathrm{PLAU}$ também é indecidível.
+\end{proof}
+
+%------------------------------------------------------------------------------
+
+\end{document}
