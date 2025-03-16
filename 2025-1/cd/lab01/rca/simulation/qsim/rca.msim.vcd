@@ -1,0 +1,135 @@
+$comment
+	File created using the following command:
+		vcd file rca.msim.vcd -direction
+$end
+$date
+	Sun Mar 16 15:11:31 2025
+$end
+$version
+	ModelSim Version 10.1d
+$end
+$timescale
+	1ps
+$end
+$scope module rca_vlg_vec_tst $end
+$var reg 4 ! A [3:0] $end
+$var reg 4 " B [3:0] $end
+$var wire 1 # Cout $end
+$var wire 1 $ S [3] $end
+$var wire 1 % S [2] $end
+$var wire 1 & S [1] $end
+$var wire 1 ' S [0] $end
+$var wire 1 ( sampler $end
+$scope module i1 $end
+$var wire 1 ) gnd $end
+$var wire 1 * vcc $end
+$var wire 1 + unknown $end
+$var tri1 1 , devclrn $end
+$var tri1 1 - devpor $end
+$var tri1 1 . devoe $end
+$var wire 1 / Cout~output_o $end
+$var wire 1 0 S[3]~output_o $end
+$var wire 1 1 S[2]~output_o $end
+$var wire 1 2 S[1]~output_o $end
+$var wire 1 3 S[0]~output_o $end
+$var wire 1 4 B[2]~input_o $end
+$var wire 1 5 A[2]~input_o $end
+$var wire 1 6 B[1]~input_o $end
+$var wire 1 7 B[0]~input_o $end
+$var wire 1 8 A[1]~input_o $end
+$var wire 1 9 A[0]~input_o $end
+$var wire 1 : inst|inst5~0_combout $end
+$var wire 1 ; inst1|inst5~1_combout $end
+$var wire 1 < A[3]~input_o $end
+$var wire 1 = inst1|inst5~0_combout $end
+$var wire 1 > B[3]~input_o $end
+$var wire 1 ? inst2|inst5~0_combout $end
+$var wire 1 @ inst2|inst2~combout $end
+$var wire 1 A inst1|inst2~0_combout $end
+$var wire 1 B inst|inst2~0_combout $end
+$var wire 1 C inst3|inst2~combout $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b11 !
+b1 "
+0#
+0'
+0&
+1%
+0$
+x(
+0)
+1*
+x+
+1,
+1-
+1.
+0/
+00
+11
+02
+03
+04
+05
+06
+17
+18
+19
+1:
+0;
+0<
+0=
+0>
+0?
+0@
+1A
+0B
+0C
+$end
+#330000
+b1011 !
+b1010 !
+b1001 "
+b1011 "
+b1010 "
+07
+16
+1>
+09
+1<
+0(
+1?
+1/
+1#
+#660000
+b1110 !
+b1111 !
+b10 "
+b0 "
+b1 "
+17
+06
+0>
+19
+15
+1(
+1;
+1@
+0?
+0A
+10
+0/
+01
+1$
+0#
+0%
+0@
+1?
+00
+1/
+0$
+1#
+#1000000
