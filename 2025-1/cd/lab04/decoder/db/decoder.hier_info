@@ -1,0 +1,38 @@
+|decoder
+S[0] <= inst31.DB_MAX_OUTPUT_PORT_TYPE
+S[1] <= inst35.DB_MAX_OUTPUT_PORT_TYPE
+S[2] <= inst36.DB_MAX_OUTPUT_PORT_TYPE
+S[3] <= inst37.DB_MAX_OUTPUT_PORT_TYPE
+S[4] <= <GND>
+S[5] <= inst39.DB_MAX_OUTPUT_PORT_TYPE
+S[6] <= inst38.DB_MAX_OUTPUT_PORT_TYPE
+S[7] <= inst41.DB_MAX_OUTPUT_PORT_TYPE
+S[8] <= inst42.DB_MAX_OUTPUT_PORT_TYPE
+S[9] <= inst44.DB_MAX_OUTPUT_PORT_TYPE
+S[10] <= inst45.DB_MAX_OUTPUT_PORT_TYPE
+S[11] <= inst46.DB_MAX_OUTPUT_PORT_TYPE
+S[12] <= inst47.DB_MAX_OUTPUT_PORT_TYPE
+S[13] <= inst49.DB_MAX_OUTPUT_PORT_TYPE
+S[14] <= inst50.DB_MAX_OUTPUT_PORT_TYPE
+S[15] <= inst51.DB_MAX_OUTPUT_PORT_TYPE
+A[0] => inst7.IN0
+A[0] => inst50.IN0
+A[0] => inst47.IN0
+A[0] => inst45.IN0
+A[0] => inst42.IN0
+A[0] => inst31.IN0
+A[0] => inst36.IN0
+A[0] => inst38.IN0
+A[1] => inst24.IN1
+A[1] => inst6.IN0
+A[1] => inst26.IN1
+A[1] => inst28.IN1
+A[1] => inst30.IN1
+A[2] => inst5.IN0
+A[2] => inst23.IN0
+A[2] => inst34.IN0
+A[3] => inst4.IN0
+A[3] => inst33.IN1
+A[3] => inst34.IN1
+
+
