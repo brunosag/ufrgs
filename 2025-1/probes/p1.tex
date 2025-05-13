@@ -1,0 +1,199 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[many]{tcolorbox}
+\usepackage[document]{ragged2e}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry, setspace, enumitem, indentfirst, multicol}
+
+\geometry{
+    a4paper,
+    left=32pt,
+    right=32pt,
+    top=32pt,
+    bottom=32pt
+}
+
+\title{Probabilidade e Estátistica – Prova 1}
+\author{Bruno Samuel A. Gonçalves}
+\date{2025/1}
+
+\pagenumbering{gobble}
+\setlist{itemsep=0.25em, topsep=0em}
+\setlength\parindent{0pt}
+\setlength\columnsep{16pt}
+
+\definecolor{main}{HTML}{5989cf}
+\definecolor{sub}{HTML}{cde4ff}
+
+\tcbset{
+    sharp corners,
+    colback = white,
+    before skip = 0pt,
+    after skip = 16pt
+}
+
+\newtcolorbox{boxK}{
+    sharpish corners,
+    boxrule = 0pt,
+    toprule = 0pt,
+    enhanced,
+}
+
+\newenvironment{question}[1]{
+    \begin{boxK}
+        \refstepcounter{questioncounter}
+        \vspace{6pt}
+        \par\textbf{\Large{\thequestioncounter}}
+        \vspace{12pt}
+        \par\textbf{#1}
+        \vspace{12pt}
+}{\vspace{8pt}\end{boxK}}
+
+\newcounter{questioncounter}
+\setcounter{questioncounter}{0}
+
+\begin{document}
+
+\maketitle
+
+\begin{multicols}{2}
+
+\begin{question}{(d) Amostra é o subconjunto criado pela impossibilidade de lidar com um conjunto inteiro devido à sua dimensão.}
+    \begin{enumerate}[label=(\alph*)]
+        \item Incorreta. Confunde amostra (subconjunto) com amostragem (método de seleção).
+        \item Incorreta. Descreve população, não amostra (que é uma parte dela).
+        \item Incorreta. Amostras podem ser heterogêneas; homogeneidade não é requisito.
+        \item Correta. Uma amostra é de fato um subconjunto da população selecionado para estudo, muitas vezes devido à inviabilidade de analisar toda a população (seja por cutso, tempo ou logística).
+        \item Incorreta. Novamente define população (elementos com característica em comum), não amostra.
+    \end{enumerate}
+\end{question}
+
+\begin{question}{(d) Numérica contínua.}
+    \par Uma porcentagem (ou taxa) é, por definição, uma medida numérica, pois expressa valores quantitativos e não características qualitativas. Portanto, a variável é classificada como numérica.
+    \bigskip\par Embora, na prática, o Banco Central defina a taxa de juros com precisão de duas casas decimais, essa limitação é uma convenção — não uma restrição matemática inerente à variável. Teoricamente, a taxa poderia assumir qualquer valor fracionário (como 8.754\%), o que caracteriza sua natureza contínua.
+\end{question}
+
+\begin{question}{(b) A abordagem estatística envolvida ao generalizarmos resultados de uma amostra para toda uma população é chamada amostragem.}
+    \begin{enumerate}[label=(\alph*)]
+        \item Incorreta. A amostra é uma parte (subconjunto) dos elementos da população, não o conjunto completo.
+        \item Incorreta. O processo de generalização é chamado de inferência estatística, não amostragem.
+        \item Correta. A proporção de 32\% é um resumo numérico (estatística descritiva) derivado da amostra de alunos.
+        \item Incorreta. População é o conjunto total de elementos de interesse, não uma parcela.
+        \item Incorreta. Como foram medidas todas as alturas dos jogadores (população completa), trata-se de um censo, não de uma amostra.
+    \end{enumerate}
+\end{question}
+
+\begin{question}{(a) 40}
+    \begin{align*}
+        i &= \frac{a_{t}}{k} = \frac{x_{(n)} - x_{(1)}}{k} = \frac{97 - 2}{5} = 19 \\
+        x_{(3)} &= x_{(1)} + 2i = 2 + 2(19) = 40  
+    \end{align*}
+\end{question}
+
+\begin{question}{(a) Assimetria positiva.}
+    \begin{align*}
+        p_{1} &= \frac{n}{4} = \frac{50}{4} = 12.5 \\
+        p_{2} &= \frac{n}{2} = \frac{50}{2} = 25 \\
+        p_{3} &= \frac{3n}{4} = \frac{3(50)}{4} = 37.5 \\
+        Q_{1} &= \frac{x_{12} + x_{13}}{2} = \frac{18 + 20}{2} = 19 \\
+        Q_{2} &= x_{25} = 30 \\
+        Q_{3} &= \frac{x_{37} + x_{38}}{2} = \frac{42 + 44}{2} = 43
+    \end{align*}
+    \begin{align*}
+        S_{k} &= \frac{Q3 + Q1 - 2(Q2)}{Q3 - Q1} = \frac{43 + 19 - 2(30)}{43 - 19} \\
+        &\approx 0.08\ \text{(assimetria positiva)}
+    \end{align*}
+\end{question}
+
+\begin{question}{(a) 8000}
+    \begin{align*}
+        \sum_{i=1}^{k} F_{i} = 27 + 94 + 147 + 95 + 27 + 5 &= 395 \\
+        395 \times 0.6734 &\approx 266
+    \end{align*}
+    \par As primeiras 3 classes abrangem as 268 menores distâncias, com limite superior de 8.000 m. Como 67,34\% dos dados correspondem a 266 observações, concui-se que o limite inferior da quarta classe (8.000 m) deve ser maior que todos esses valores. Portanto podemos afirmar que 8.000 m é a menor distância que supera pelo menos 67,34\% dos dados.
+\end{question}
+
+\begin{question}{(b) 32 e 3,75}
+    \par Ao multiplicar cada peso por K, tanto a média quanto o desvio padrão são escalados por K. Já ao adicionar uma constante C, a média é deslocada em C mas o desvio padrão permanece o mesmo, pois a adição de uma constante não altera a dispersão dos dados.
+    \begin{align*}
+        \bar{x}^{\prime} &= (K \times \bar{x}) + C = (1.5 \times 16) + 8 = 32 \\
+        s^{\prime} &= K \times s = 1.5 \times 2.5 = 3.75
+    \end{align*}
+\end{question}
+
+\begin{question}{(d) Média = 317,49; Mediana = 291,5; Moda = 285.}
+    \begin{align*}
+        \bar{x} &= \frac{\sum_{i=1}^{n} x_{i}}{n} \approx 317.49 \\
+        Md &= \frac{x_{n/2} + x_{(n/2) + 1}}{2} = \frac{290 + 293}{2} = 291.5 \\
+        Mo &= 285 \text{ (único com } F_{i} > 1\text{)}
+    \end{align*}
+\end{question}
+
+\begin{question}{(d) A mediana encontra-se na classe de R\$ 900 até R\$1000.}
+    \begin{enumerate}[label=(\alph*)]
+        \item Incorreto. Com uma amplitude total de 500, o desvio padrão máximo é 250.
+        \item Incorreto. Como há 200 observações, a mediana (valor entre as posições 100 e 101) encontra-se na segunda classe (de R\$ 900 até R\$ 1000), pois esta vai da posição 50 até 120.
+        \item Incorreto. Não é possível determinar a moda com os dados da tabela.
+        \item Correto. Desenvolvido no item (b).
+        \item Incorreto. $\frac{\sum_{i=1}^{k} (c_{i} \times F_{i})}{n} = 990$.
+    \end{enumerate}
+\end{question}
+
+\begin{question}{(c) 12/91}
+    \begin{gather*}
+        \text{Caixa} = \{A_1,A_2,A_3,B_1,B_2,B_3,\\B_4,C_1,C_2,C_3,D_1,D_2,D_3,D_4\}
+    \end{gather*}
+    \begin{align*}
+        \Omega &= \{\{A_1,A_2\}, \{A_1,A_3\}, ..., \{D_3,D_4\}\} \\
+        |\Omega| &= \binom{14}{2} = 91 \\
+        E &= \{\{A_1,D_1\},\{A_1,D_2\},...,\{A_3,D_4\}\} \\
+        |E| &= \binom{3}{1}\binom{4}{1} = 12
+    \end{align*}
+    \begin{gather*}
+        P(E) = \frac{|E|}{|\Omega|} = \frac{12}{91}
+    \end{gather*}
+\end{question}
+
+\begin{question}{(d) Ítens I, II.}
+    \begin{enumerate}[label=\Roman* –]
+        \item Correto. Para eventos independentes, tem-se
+            \begin{align*}
+                &P(A \cup B)\\
+                &= P(A) + P(B) - P(A)P(B)\\
+                &= 0.49 + 0.29 - (0.49 \times 0.29)\\
+                &= 0.6379\text{,}
+            \end{align*} conforme calculado.
+        \item Correto. Pela definição de complemento, $A \cap \overline{A} = \emptyset$, o que caracteriza exclusividade mútua.
+        \item Incorreto. Pelo Teorema de Bayes:
+        \begin{align*}
+            P(A|B) &< P(A) \\
+            \implies \frac{P(B|A)P(A)}{P(B)} &< P(A) \\
+            \implies P(B|A) &< P(B)\text{,}
+        \end{align*}
+        contradizendo a afirmação original.
+    \end{enumerate}
+\end{question}
+
+\begin{question}{(a) $\mathbf{\dfrac{1}{3}}$}
+    \begin{align*}
+        P(B_{1}) = 0.5 &&
+        P(A|B_{1}) = 0.1 \\
+        P(B_{2}) = 0.3 &&
+        P(A|B_{2}) = 0.1 \\
+        P(B_{3}) = 0.2 &&
+        P(A|B_{3}) = 0.2
+    \end{align*}
+    \begin{align*}
+        P(A) = P(B_{1})P(A|B_{1})\\
+        + P(B_{2})P(A|B_{2}) + P(B_{3})P(A|B_{3}) \\
+        = 0.5(0.1) + 0.3(0.1) + 0.2(0.2) \\
+        = 0.12 \\
+        \\
+        P(B_{3}|A) = \frac{P(A|B_{3})P(B_{3})}{P(A)} = \frac{0.2(0.2)}{0.12} = \frac{1}{3}
+    \end{align*}
+\end{question}
+
+\end{multicols}
+\end{document}
