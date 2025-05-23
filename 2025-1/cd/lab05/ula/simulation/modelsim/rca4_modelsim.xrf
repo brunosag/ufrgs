@@ -1,9 +1,0 @@
-vendor_name = ModelSim
-source_file = 1, /home/bsag/Desktop/rca4/sdc.sdc
-source_file = 1, /home/bsag/Desktop/rca4/rca4.bdf
-source_file = 1, /home/bsag/Desktop/rca4/db/rca4.cbx.xml
-design_name = rca4
-instance = comp, \S~output\, S~output, rca4, 1
-instance = comp, \Cout~output\, Cout~output, rca4, 1
-instance = comp, \A~input\, A~input, rca4, 1
-instance = comp, \B~input\, B~input, rca4, 1
