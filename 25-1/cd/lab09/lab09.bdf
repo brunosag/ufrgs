@@ -19,40 +19,39 @@ Altera or its authorized distributors.  Please refer to the
 applicable agreement for further details.
 */
 (header "graphic" (version "1.4"))
-(pin
-	(input)
-	(rect 72 88 240 104)
-	(text "INPUT" (rect 125 0 154 10)(font "Arial" (font_size 6)))
-	(text "A[3..0]" (rect 5 0 36 11)(font "Arial" ))
-	(pt 168 8)
-	(drawing
-		(line (pt 84 12)(pt 109 12))
-		(line (pt 84 4)(pt 109 4))
-		(line (pt 113 8)(pt 168 8))
-		(line (pt 84 12)(pt 84 4))
-		(line (pt 109 4)(pt 113 8))
-		(line (pt 109 12)(pt 113 8))
+(symbol
+	(rect 344 176 480 272)
+	(text "counter" (rect 5 0 48 13)(font "Arial" (font_size 8)))
+	(text "inst" (rect 8 81 26 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "D[7..0]" (rect 0 0 38 13)(font "Arial" (font_size 8)))
+		(text "D[7..0]" (rect 21 27 59 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
 	)
-	(text "VCC" (rect 128 7 149 17)(font "Arial" (font_size 6)))
-)
-(pin
-	(output)
-	(rect 304 88 480 104)
-	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
-	(text "N" (rect 90 0 98 11)(font "Arial" ))
-	(pt 0 8)
-	(drawing
-		(line (pt 0 8)(pt 52 8))
-		(line (pt 52 4)(pt 78 4))
-		(line (pt 52 12)(pt 78 12))
-		(line (pt 52 12)(pt 52 4))
-		(line (pt 78 4)(pt 82 8))
-		(line (pt 82 8)(pt 78 12))
-		(line (pt 78 12)(pt 82 8))
+	(port
+		(pt 0 48)
+		(input)
+		(text "sel[1..0]" (rect 0 0 46 13)(font "Arial" (font_size 8)))
+		(text "sel[1..0]" (rect 21 43 67 56)(font "Arial" (font_size 8)))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
 	)
-)
-(connector
-	(text "A[3]" (rect 272 80 292 91)(font "Arial" ))
-	(pt 304 96)
-	(pt 264 96)
+	(port
+		(pt 0 64)
+		(input)
+		(text "clk" (rect 0 0 18 13)(font "Arial" (font_size 8)))
+		(text "clk" (rect 21 59 39 72)(font "Arial" (font_size 8)))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 136 32)
+		(output)
+		(text "Q[7..0]" (rect 0 0 38 13)(font "Arial" (font_size 8)))
+		(text "Q[7..0]" (rect 77 27 115 40)(font "Arial" (font_size 8)))
+		(line (pt 136 32)(pt 120 32)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 120 80))
+	)
 )

@@ -1,0 +1,369 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage{moresize}
+\usepackage[brazil]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\geometry{
+    paper=a4paper,
+    top=64pt,
+    bottom=64pt,
+    left=112pt,
+    right=112pt
+}
+
+\setmainfont{Libertinus Serif}[
+  UprightFont = *,
+  ItalicFont = * Italic,
+  BoldFont = * Bold,
+  BoldItalicFont = * Bold Italic
+]
+\setmonofont{Fira Code}[
+  Scale=MatchLowercase, Ligatures=TeX
+]
+
+\titlespacing*{\subsection}{0pt}{2em}{0.625em}
+
+\definecolor{sky}{HTML}{0084d1}
+\definecolor{fuchsia}{HTML}{c800de}
+\definecolor{gray50}{HTML}{f9fafb}
+\definecolor{gray400}{HTML}{99a1af}
+\definecolor{gray900}{HTML}{101828}
+
+\lstdefinestyle{sqlstyle}{
+    language=SQL,
+    basicstyle=\ttfamily\color{gray900},
+    keywordstyle=\color{sky}\bfseries,
+    stringstyle=\color{fuchsia},
+    commentstyle=\color{gray400},
+    backgroundcolor=\color{gray50},
+    rulecolor=\color{gray50},
+    frame=single,
+    framesep=16pt,
+    xleftmargin=16pt,
+    xrightmargin=16pt,
+    breaklines=true
+}
+\lstset{style=sqlstyle}
+
+\NewDocumentCommand{\course}{m}{\gdef\thecourse{#1}}
+\NewDocumentCommand{\authors}{m}{\gdef\theauthors{#1}}
+\NewDocumentCommand{\professor}{m}{\gdef\theprofessor{#1}}
+\NewDocumentCommand{\semester}{m}{\gdef\thesemester{#1}}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \begin{center}
+            {\scshape Universidade Federal do Rio Grande do Sul\\Instituto de Informática} \\
+            \vspace*{\fill}
+            {\large \thecourse} \\[24pt]
+            {\Huge \thetitle} \\[48pt]
+            \theauthors \\
+            \vspace*{\fill}
+            \theprofessor \\[2pt]
+            \thesemester
+        \end{center}
+    \end{titlepage}
+}
+
+\course{Fundamentos de Banco de Dados – INF01145}
+\title{
+    Trabalho Prático – Etapa 2 \\[8pt]
+    \Large Comandos de Definição de Dados (DDL)
+}
+\authors{
+    Bruno Samuel Ardenghi Gonçalves — 550452 \\[2pt]
+    Leonardo Azzi Martins — 323721
+}
+\professor{Prof.ª Karin Becker}
+\semester{2025/1}
+
+\begin{document}
+
+\maketitle
+
+\section{Entidades}
+
+\subsection{Tabela \texttt{series}}
+Uma série de livros contendo uma ou mais obras primárias explicitamente ordenadas e, opcionalmente, outras obras sem uma posição específica dentro da série.
+\begin{lstlisting}
+CREATE TABLE series (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{works}}
+Uma obra literária que engloba todas as suas edições.
+\begin{lstlisting}
+CREATE TABLE works (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    first_publication_date DATE NOT NULL,
+    mean_rating NUMERIC(2) CHECK (
+        mean_rating BETWEEN 1 AND 5
+    )
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{genres}}
+Um gênero ou categoria de livros. É definido pelo seu nome e usado para agrupar obras com características similares.
+\begin{lstlisting}
+CREATE TABLE genres (
+    id SERIAL PRIMARY KEY,
+    slug VARCHAR(50) NOT NULL UNIQUE,
+    label VARCHAR(50) NOT NULL,
+    description VARCHAR(2000)
+);
+\end{lstlisting}
+
+\newpage
+
+\subsection{Tabela \texttt{authors}}
+Um autor com zero ou mais obras atribuídas a si. Usado para agrupar livros escritos pela mesma pessoa e fornecer informações sobre estas através de um perfil.
+\begin{lstlisting}
+CREATE TABLE authors (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    picture_url VARCHAR(500),
+    birth_place VARCHAR(50),
+    birth_date DATE,
+    death_date DATE,
+    website VARCHAR(500),
+    biography VARCHAR(2000)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{editions}}
+Uma edição ou instância de uma obra. Também implementa o relacionamento \textit{Publication}, que atribui uma edição à obra a qual ela corresponde.
+\begin{lstlisting}
+CREATE TABLE editions (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    page_count SMALLINT NOT NULL,
+    format VARCHAR(25) NOT NULL,
+    publication_date DATE NOT NULL,
+    publisher VARCHAR(50) NOT NULL,
+    language VARCHAR(50) NOT NULL,
+    cover_image_url VARCHAR(500),
+    summary VARCHAR(2000),
+    isbn CHAR(13),
+    asin CHAR(10),
+    -- Relacionamento Publication
+    work_id INTEGER NOT NULL REFERENCES works(id)
+);
+\end{lstlisting}
+
+\newpage
+
+\subsection{Tabela \texttt{users}}
+Um usuário representa um perfil na plataforma, necessário para interagir com o site.
+\begin{lstlisting}
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(254) NOT NULL UNIQUE,
+    password VARCHAR(35) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50),
+    picture_url VARCHAR(500)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{groups}}
+Um grupo criado e composto por usuários, que podem ser moderadores ou membros.
+\begin{lstlisting}
+CREATE TABLE groups (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(1000),
+    picture_url VARCHAR(500)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{lists}}
+Uma lista de livros pública. Qualquer usuário pode adicionar livros à lista, assim como votar em obras já listadas.
+\begin{lstlisting}
+CREATE TABLE lists (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description VARCHAR(1000)
+);
+\end{lstlisting}
+
+\newpage
+
+\subsection{Tabela \texttt{list\_entries}}
+Representa uma obra específica dentro de uma lista, implementando também o relacionamento \textit{Entry}, que a atribui à sua respectiva lista.
+\begin{lstlisting}
+CREATE TABLE list_entries (
+    id SERIAL PRIMARY KEY,
+    vote_count INTEGER NOT NULL CHECK (vote_count >= 0),
+    -- Relacionamento Entry
+    list_id INTEGER NOT NULL REFERENCES lists(id),
+    edition_id INTEGER NOT NULL REFERENCES editions(id)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{shelves}}
+Uma estante ou coleção de livros pública de um usuário.
+\begin{lstlisting}
+CREATE TABLE shelves (
+    id SERIAL PRIMARY KEY,
+    slug VARCHAR(50) NOT NULL UNIQUE
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{quotes}}
+Uma citação atribuída a um autor por um usuário. Implementa o relacionamento \textit{Attribution}, que formaliza a autoria da citação.
+\begin{lstlisting}
+CREATE TABLE quotes (
+    id SERIAL PRIMARY KEY,
+    quote VARCHAR(500) NOT NULL,
+    -- Relacionamento Attribution
+    author_id INTEGER NOT NULL REFERENCES authors(id)
+);
+\end{lstlisting}
+
+\clearpage
+\section{Relacionamentos}
+
+\subsection{Tabela \texttt{positionings}}
+Tabela de relacionamento que atribui uma obra a uma série, com ou sem uma posição específica.
+\begin{lstlisting}
+CREATE TABLE positionings (
+    series_id INTEGER NOT NULL REFERENCES series(id),
+    work_id INTEGER NOT NULL REFERENCES works(id),
+    position NUMERIC(2),
+    PRIMARY KEY (series_id, work_id)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{categorizations}}
+Tabela de relacionamento que atribui uma obra a um gênero.
+\begin{lstlisting}
+CREATE TABLE categorizations (
+    work_id INTEGER NOT NULL REFERENCES works(id),
+    genre_id INTEGER NOT NULL REFERENCES genres(id),
+    PRIMARY KEY (work_id, genre_id)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{authorships}}
+Tabela de relacionamento que atribui uma obra aos seus autores.
+\begin{lstlisting}
+CREATE TABLE authorships (
+    work_id INTEGER NOT NULL REFERENCES works(id),
+    author_id INTEGER NOT NULL REFERENCES authors(id),
+    PRIMARY KEY (work_id, author_id)
+);
+\end{lstlisting}
+
+\newpage
+
+\subsection{Tabela \texttt{storages}}
+Tabela de relacionamento que atribui uma edição de um livro a uma estante de um usuário.
+\begin{lstlisting}
+CREATE TABLE storages (
+    edition_id INTEGER NOT NULL REFERENCES editions(id),
+    shelf_id INTEGER NOT NULL REFERENCES shelves(id),
+    PRIMARY KEY (edition_id, shelf_id)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{ownerships}}
+Tabela de relacionamento que atribui uma estante ao seu usuário proprietário.
+\begin{lstlisting}
+CREATE TABLE ownerships (
+    shelf_id INTEGER NOT NULL REFERENCES shelves(id),
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    PRIMARY KEY (shelf_id, user_id)
+);
+\end{lstlisting}
+
+\subsection{Tipo \texttt{tracking\_status}}
+Define os possíveis status de rastreamento de leitura de um livro por um usuário.
+\begin{lstlisting}
+CREATE TYPE tracking_status AS ENUM ('to-read', 'currently-reading', 'read');
+\end{lstlisting}
+
+\newpage
+
+\subsection{Tabela \texttt{trackings}}
+Guarda o status e progresso de leitura de um usuário em relação a um livro.
+\begin{lstlisting}
+CREATE TABLE trackings (
+    edition_id INTEGER NOT NULL REFERENCES editions(id),
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    status tracking_status NOT NULL,
+    progress SMALLINT DEFAULT 0,
+    review VARCHAR(18800),
+    reading_period DATERANGE,
+    rating SMALLINT CHECK (
+        rating BETWEEN 1 AND 5
+    ),
+    PRIMARY KEY (edition_id, user_id)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{likes}}
+Relacionamento criado quando um usuário curte uma citação.
+\begin{lstlisting}
+CREATE TABLE likes (
+    quote_id INTEGER NOT NULL REFERENCES quotes(id),
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    PRIMARY KEY (quote_id, user_id)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{memberships}}
+Relacionamento que atribui um usuário a um grupo do qual ele faz parte.
+\begin{lstlisting}
+CREATE TABLE memberships (
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    group_id INTEGER NOT NULL REFERENCES groups(id),
+    PRIMARY KEY (user_id, group_id)
+);
+\end{lstlisting}
+
+\newpage
+
+\subsection{Tabela \texttt{moderations}}
+Relacionamento que atribui a posição de moderador de um grupo a um usuário.
+\begin{lstlisting}
+CREATE TABLE moderations (
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    group_id INTEGER NOT NULL REFERENCES groups(id),
+    PRIMARY KEY (user_id, group_id)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{currently\_readings}}
+Relacionamento que atribui um livro como leitura atual de um grupo.
+\begin{lstlisting}
+CREATE TABLE currently_readings (
+    edition_id INTEGER NOT NULL REFERENCES editions(id),
+    group_id INTEGER NOT NULL REFERENCES groups(id),
+    start_date DATE,
+    finish_date DATE,
+    PRIMARY KEY (edition_id, group_id)
+);
+\end{lstlisting}
+
+\subsection{Tabela \texttt{votes}}
+Relacionamento criado quando um usuário vota em um livro em uma lista.
+\begin{lstlisting}
+CREATE TABLE votes (
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    list_entry_id INTEGER NOT NULL REFERENCES list_entries(id),
+    PRIMARY KEY (user_id, list_entry_id)
+);
+\end{lstlisting}
+
+\end{document}
