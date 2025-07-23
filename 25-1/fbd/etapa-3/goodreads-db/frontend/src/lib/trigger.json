@@ -1,0 +1,32 @@
+[
+	{
+		"title": "Obras e edições",
+		"query": "SELECT w.id AS work_id, e.id AS edition_id, w.title, e.format, w.rating FROM works w JOIN editions e ON w.id = e.work_id ORDER BY w.id ASC, e.id ASC;"
+	},
+	{
+		"title": "Trackings",
+		"query": "SELECT t.edition_id, t.user_id, t.rating, t.review FROM trackings t JOIN editions e ON t.edition_id = e.id WHERE e.work_id = (%(work_id)s) ORDER BY t.edition_id ASC, t.user_id ASC;",
+		"params": [{ "name": "work_id", "type": "number", "value": 1 }]
+	},
+	{
+		"title": "Inserir avaliação",
+		"query": "INSERT INTO trackings (edition_id, user_id, status, progress, rating, review, reading_period) VALUES (%(edition_id)s, 1, 'read', 100, (%(rating)s), 'Avaliação teste.', '[2025-07-06,2025-07-06)');",
+		"params": [
+			{ "name": "edition_id", "type": "number", "value": 1 },
+			{ "name": "rating", "type": "number", "value": 5 }
+		]
+	},
+	{
+		"title": "Atualizar avaliação",
+		"query": "UPDATE trackings SET rating = (%(rating)s) WHERE edition_id = (%(edition_id)s) AND user_id = 1;",
+		"params": [
+			{ "name": "edition_id", "type": "number", "value": 1 },
+			{ "name": "rating", "type": "number", "value": 5 }
+		]
+	},
+	{
+		"title": "Remover avaliação",
+		"query": "DELETE FROM trackings WHERE edition_id = (%(edition_id)s) AND user_id = 1;",
+		"params": [{ "name": "edition_id", "type": "number", "value": 1 }]
+	}
+]

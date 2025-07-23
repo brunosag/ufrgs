@@ -1,0 +1,158 @@
+\documentclass[12pt, fleqn]{article}
+\usepackage[portuguese]{babel}
+\usepackage{newpxtext, newpxmath}
+\usepackage{amsmath}
+\usepackage{titling}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\graphicspath{{./images/}}
+
+\geometry{
+    paper=a4paper,
+    top=64pt,
+    bottom=64pt,
+    left=112pt,
+    right=112pt
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{gray!5},
+    rulecolor=\color{gray!20},
+    frame=single,
+    framesep=16pt,
+    xleftmargin=16pt,
+    xrightmargin=16pt,
+    captionpos=b
+}
+
+\renewcommand{\arraystretch}{1.2}
+
+\setlength{\tabcolsep}{8pt}
+
+\NewDocumentCommand{\course}{m}{\gdef\thecourse{#1}}
+\NewDocumentCommand{\authors}{m}{\gdef\theauthors{#1}}
+\NewDocumentCommand{\professor}{m}{\gdef\theprofessor{#1}}
+\NewDocumentCommand{\semester}{m}{\gdef\thesemester{#1}}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \begin{center}
+            {\scshape Universidade Federal do Rio Grande do Sul\\Instituto de Informática} \\
+            \vspace*{\fill}
+            {\large \thecourse} \\[16pt]
+            {\LARGE \thetitle} \\[36pt]
+            \theauthors \\
+            \vspace*{\fill}
+            \theprofessor \\[2pt]
+            \thesemester
+        \end{center}
+    \end{titlepage}
+}
+
+\course{Circuitos Digitais – INF01058}
+\title{LAB 09 – Contador síncrono up/down}
+\authors{
+    Ana Cláudia Rodrigues — 343123 \\[2pt]
+    Bruno Samuel Ardenghi Gonçalves — 550452
+}
+\professor{Prof. Mateus Grellert}
+\semester{2025/1}
+
+\begin{document}
+
+\maketitle
+
+\section{Introdução}
+
+Neste laboratório desenvolvemos um registrador de 8 bits com função de carga paralela, armazenamento, incremento e decremento. Dado um sinal de 8 bits, um clock de 50MHz e um seletor de 2 bits, diminuimos o clock a 2.98Hz e, selecionado um modo, exibimos a saída do registrador em um visor de 2 dígitos hexadecimais de 7 segmentos. A divisão do clock e decodificação da saída são feitos utilizando circuitos implementados nos laboratórios anteriores. O projeto foi implementado e simulado pelo software Quartus, posteriormente sintetizado e testado em uma FPGA Cyclone III D0 (modelo EP3C16F484C6).
+
+\subsection{Entradas}
+
+\begin{itemize}
+    \item \texttt{CLK}:\hspace{3pt} Clock com frequência $f$.
+    \item \texttt{D[7..0]}:\hspace{3pt} Valor a ser carregado no registrador.
+    \item \texttt{SEL[1..0]}:\hspace{3pt} Seletor de modo do regsistrador:
+    \begin{itemize}[label=$\circ$]
+        \item \texttt{00}:\hspace{3pt} Carga paralela ($Q_t \leftarrow D_t$)
+        \item \texttt{01}:\hspace{3pt} Armazenamento ($Q_{t+1} \leftarrow Q_t$)
+        \item \texttt{10}:\hspace{3pt} Incremento ($Q_{t+1} \leftarrow Q_t + 1$)
+        \item \texttt{11}:\hspace{3pt} Decremento ($Q_{t+1} \leftarrow Q_t - 1$)
+    \end{itemize}
+\end{itemize}
+
+\subsection{Saídas}
+
+\begin{itemize}
+    \item \texttt{HEX1[6..0]}:\hspace{3pt} Representação do bit mais significativo da saída para o visor de 7 segmentos.
+    \item \texttt{HEX0[6..0]}:\hspace{3pt} Representação do bit menos significativo da saída para o visor de 7 segmentos.
+\end{itemize}
+
+\subsection{Módulos Principais}
+
+\begin{itemize}
+    \item \textbf{}{Contador síncrono de 8 bits}: O núcleo do projeto, que contém a lógica para as quatro operações.
+    \item \textbf{Dividor de clock}: Módulo divisor de frequência para reduzir a velocidade do clock para visualização.
+    \item \textbf{Decodificador BCD-7seg (x2)}: Módulos que convertem a saída binária de 4 bits para o código de 7 segmentos do display.
+\end{itemize}
+
+
+\section{Resultados}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l | c|}
+        \hline
+        \textbf{Total de elementos lógicos} & 24 \\
+        \hline
+        \textbf{Total de pinos} & 25 \\
+        \hline
+        \textbf{Área total} & 48 \\
+        \hline
+        \textbf{Total de registradores} & 8 \\
+        \hline
+    \end{tabular}
+    \caption{Consumo de recursos da FPGA em área}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l | c|}
+        \hline
+        \textbf{Frequencia máxima} & 548.85 MHz \\
+        \hline
+        \textbf{Atraso crítico} & 1.753 \\
+        \hline
+    \end{tabular}
+    \caption{Frequência máxima de operação e atraso crítico (\textit{slow}, 85°C)}
+\end{table}
+
+\section{Capturas de tela}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{netlist.png}
+    \caption{Captura de tela do netlist}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{waveform.png}
+    \caption{Captura de tela da simulação em forma de onda com atraso}
+\end{figure}
+
+\section{Arquivo de restrições}
+
+\begin{lstlisting}[caption=constraints.sdc]
+create_clock -name clk -period 20 [get_ports CLK]
+
+set_input_delay -clock clk -max 0.2 [all_inputs]
+set_input_delay -clock clk -min 0.01 [all_inputs]
+set_output_delay -clock clk -max 0.2 [all_outputs]
+set_output_delay -clock clk -min 0.01 [all_outputs]  
+\end{lstlisting}
+
+\end{document}

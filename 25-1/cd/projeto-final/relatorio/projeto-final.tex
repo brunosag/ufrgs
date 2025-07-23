@@ -1,0 +1,170 @@
+\documentclass[12pt, fleqn]{article}
+\usepackage[portuguese]{babel}
+\usepackage{newpxtext, newpxmath}
+\usepackage{amsmath}
+\usepackage{titling}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+
+\graphicspath{{./images/}}
+
+\geometry{
+    paper=a4paper,
+    top=64pt,
+    bottom=64pt,
+    left=112pt,
+    right=112pt
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{gray!5},
+    rulecolor=\color{gray!20},
+    frame=single,
+    framesep=16pt,
+    xleftmargin=16pt,
+    xrightmargin=16pt,
+    breaklines=true,
+    captionpos=b
+}
+
+\renewcommand{\arraystretch}{1.2}
+
+\setlength{\tabcolsep}{8pt}
+
+\NewDocumentCommand{\course}{m}{\gdef\thecourse{#1}}
+\NewDocumentCommand{\authors}{m}{\gdef\theauthors{#1}}
+\NewDocumentCommand{\professor}{m}{\gdef\theprofessor{#1}}
+\NewDocumentCommand{\semester}{m}{\gdef\thesemester{#1}}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \begin{center}
+            {\scshape Universidade Federal do Rio Grande do Sul\\Instituto de Informática} \\
+            \vspace*{\fill}
+            {\large \thecourse} \\[16pt]
+            {\Huge \thetitle} \\[36pt]
+            \theauthors \\
+            \vspace*{\fill}
+            \theprofessor \\[2pt]
+            \thesemester
+        \end{center}
+    \end{titlepage}
+}
+
+\course{Circuitos Digitais – INF01058}
+\title{Projeto Final – Neander}
+\authors{
+    Ana Cláudia Rodrigues — 343123 \\[2pt]
+    Bruno Samuel Ardenghi Gonçalves — 550452
+}
+\professor{Prof. Mateus Grellert}
+\semester{2025/1}
+
+\begin{document}
+
+\maketitle
+
+\section{Introdução}
+
+Neste projeto, desenvolvemos uma versão completa do processador hipotético Neander, utilizando uma unidade de controle baseada em expressões lógicas e uma memória para armazenar o programa e os dados. O sistema foi projetado para operar com um clock de entrada de 50MHz, reduzido para aproximadamente 2Hz para a execução das instruções, e inclui os principais componentes de um processador, como Unidade Lógica e Aritmética (ULA), registradores (AC, PC, RDM, REM, RI) e decodificador de instruções. O projeto foi implementado e simulado com o software Quartus II, com o objetivo de sintetizá-lo e testá-lo em uma FPGA Cyclone III (modelo EP3C16F484C6).
+
+\subsection{Entradas}
+
+\begin{itemize}
+    \item \texttt{CLK\_IN}: Clock inicial com frequência de 50MHz.
+    \item \texttt{RST}: Sinal de reset assíncrono para todo o sistema.
+    \item \texttt{DEBUG}: Habilita execução passo a passo através do botão \texttt{STEP}.
+    \item \texttt{STEP}: Botão para avançar um ciclo de clock no modo \texttt{DEBUG}.
+\end{itemize}
+
+\subsection{Saídas}
+
+\begin{itemize}
+    \item \texttt{HEX3[6..0]}, \texttt{HEX2[6..0]}: Representação dos 8 bits do registrador PC em dois visores de 7 segmentos hexadecimais.
+    \item \texttt{HEX1[6..0]}, \texttt{HEX0[6..0]}: Representação dos 8 bits do acumulador AC em dois visores de 7 segmentos hexadecimais.
+    \item \texttt{N}: LED para exibir o valor da flag de estado Negativo (N).
+    \item \texttt{Z}: LED para exibir o valor da flag de estado Zero (Z).
+    \item \texttt{HLT}: LED para indicar que o processador foi parado pela instrução HLT.
+\end{itemize}
+
+\subsection{Módulos Principais}
+
+\begin{itemize}
+    \item \textit{Unidade Lógica e Aritmética (ULA)}: Realiza as operações lógicas (AND, OR, NOT) e aritméticas (ADD) do processador.
+    \item \textit{Registradores}: Unidades de armazenamento de 8 bits (AC, RDM, REM, RI) e um contador de 8 bits (PC) com controle de carga e incremento.
+    \item \textit{Unidade de Controle (UC)}: Gera os sinais de controle para os demais componentes a partir das instruções e dos passos do temporizador.
+    \item \textit{Memória}: Armazena as instruções do programa e os dados (implementada como ROM ou RAM).
+    \item \textit{Decodificador de Instruções}: Decodifica o opcode da instrução atual para a unidade de controle.
+    \item \textit{Temporizador}: Contador de 3 bits que sequencia os passos de execução de cada instrução.
+\end{itemize}
+
+\section{Resultados}
+
+\begin{table}[htbp]
+    \centering
+    \label{tab:recursos_detalhado}
+    \begin{tabular}{l r r r}
+        \toprule
+        \textbf{Recurso} & \textbf{Usado} & \textbf{Total} & \textbf{Uso (\%)} \\
+        \midrule
+        \multicolumn{4}{l}{\textbf{Lógica}} \\
+        \hspace{1em}\hspace{0.5em}Elementos lógicos totais           & 158   & 15.408  & < 1 \% \\
+        \hspace{2em}\hspace{0.5em}\textit{Funções combinacionais}          & 158   & 15.408  & < 1 \% \\
+        \hspace{2em}\hspace{0.5em}\textit{Registradores lógicos dedicados} & 66    & 15.408  & < 1 \% \\
+        \midrule
+        \multicolumn{4}{l}{\textbf{Memória}} \\
+        \hspace{1em}\hspace{0.5em}Blocos de memória (M9K)             & 1     & 56      & 2 \%   \\
+        \hspace{1em}\hspace{0.5em}Total de bits de memória            & 2.048 & 516.096 & < 1 \% \\
+        \midrule
+        \multicolumn{4}{l}{\textbf{Recursos de I/O e roteamento}} \\
+        \hspace{1em}\hspace{0.5em}Pinos de I/O                        & 35    & 347     & 10 \%  \\
+        \hspace{1em}\hspace{0.5em}Sinais de clock global              & 1     & 20      & 5 \%   \\
+        \bottomrule
+    \end{tabular}
+    \caption{Consumo detalhado de recursos da FPGA em área}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l | c|}
+        \hline
+        \textbf{Frequencia máxima} & 1466.28 MHz \\
+        \hline
+        \textbf{Atraso crítico} & 0.580 \\
+        \hline
+    \end{tabular}
+    \caption{Frequência máxima de operação e atraso crítico (\textit{slow}, 85°C)}
+\end{table}
+
+\section{Capturas de tela}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{netlist.png}
+    \caption{Captura de tela do netlist}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\textwidth]{waveform.png}
+    \caption{Captura de tela da simulação em forma de onda com atraso}
+\end{figure}
+
+\section{Arquivo de restrições}
+
+\begin{lstlisting}[caption=neander.sdc]
+create_clock -name "main_clk" -period 20.000 -waveform {0.000 10.000} [get_ports CLK_IN]
+derive_clock_uncertainty
+
+set_input_delay -clock "main_clk" -max 5.0 [remove_from_collection [all_inputs] [get_ports CLK_IN]]
+set_input_delay -clock "main_clk" -min -1.0 [remove_from_collection [all_inputs] [get_ports CLK_IN]]
+
+set_output_delay -clock "main_clk" -max 5.0 [all_outputs]
+set_output_delay -clock "main_clk" -min -1.0 [all_outputs]
+\end{lstlisting}
+
+\end{document}

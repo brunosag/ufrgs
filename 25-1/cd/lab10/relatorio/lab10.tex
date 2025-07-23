@@ -1,0 +1,175 @@
+\documentclass[12pt, fleqn]{article}
+\usepackage[portuguese]{babel}
+\usepackage{newpxtext, newpxmath}
+\usepackage{amsmath}
+\usepackage{titling}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs} % Pacote para tabelas profissionais
+
+\geometry{
+    paper=a4paper,
+    top=64pt,
+    bottom=64pt,
+    left=112pt,
+    right=112pt
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{gray!5},
+    rulecolor=\color{gray!20},
+    frame=single,
+    framesep=16pt,
+    xleftmargin=16pt,
+    xrightmargin=16pt,
+    captionpos=b,
+    breaklines=true
+}
+
+\renewcommand{\arraystretch}{1.2}
+
+\setlength{\tabcolsep}{8pt}
+
+\NewDocumentCommand{\course}{m}{\gdef\thecourse{#1}}
+\NewDocumentCommand{\authors}{m}{\gdef\theauthors{#1}}
+\NewDocumentCommand{\professor}{m}{\gdef\theprofessor{#1}}
+\NewDocumentCommand{\semester}{m}{\gdef\thesemester{#1}}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \begin{center}
+            {\scshape Universidade Federal do Rio Grande do Sul\\Instituto de Informática} \\
+            \vspace*{\fill}
+            {\large \thecourse} \\[16pt]
+            {\LARGE \thetitle} \\[36pt]
+            \theauthors \\
+            \vspace*{\fill}
+            \theprofessor \\[2pt]
+            \thesemester
+        \end{center}
+    \end{titlepage}
+}
+
+% --- INFORMAÇÕES DO DOCUMENTO ATUALIZADAS ---
+\course{Circuitos Digitais – INF01058}
+\title{LAB10 – Unidade de controle do Neander}
+\authors{
+    Ana Cláudia Rodrigues — 343123 \\[2pt]
+    Bruno Samuel Ardenghi Gonçalves — 550452
+}
+\professor{Prof. Mateus Grellert}
+\semester{2025/1}
+
+\begin{document}
+
+\maketitle
+
+% --- SEÇÃO DE INTRODUÇÃO ATUALIZADA ---
+\section{Introdução}
+
+Neste laboratório, foi projetada a Unidade de Controle (UC) do processador Neander, um componente essencial do projeto final da disciplina. A UC é responsável por gerar todos os sinais que governam o datapath do processador, orquestrando a execução de cada instrução.
+
+O controle foi implementado de forma "hardcoded", utilizando um conjunto de expressões lógicas booleanas para cada sinal de controle, em vez de uma máquina de estados finitos explícita. Para determinar o estado de cada sinal, a lógica combinacional da UC utiliza como entradas os bits da instrução atual, fornecidos por um decodificador de opcode, e o passo de execução atual (t0-t7), fornecido por um módulo temporizador.
+
+O projeto foi implementado e simulado no software Quartus, integrando os módulos UC, Decodificador e Temporizador para validação funcional.
+
+\subsection{Entradas}
+
+As entradas principais para o sistema de controle como um todo são:
+\begin{itemize}
+	\item \texttt{CLK}: Clock principal do sistema.
+	\item \texttt{RESET}: Sinal para reiniciar o estado do temporizador e do sistema.
+	\item \texttt{OPCODE[3..0]}: Código da instrução atual, vindo do Registrador de Instrução (RI), que serve de entrada para o Decodificador.
+	\item \texttt{N, Z}: Flags de estado (Negativo e Zero) da UAL, utilizadas para a execução de saltos condicionais.
+	\item \texttt{HLT}: Sinal que paralisa a contagem do temporizador, efetivamente parando o processador.
+\end{itemize}
+
+\subsection{Saídas}
+
+As saídas são os 17 sinais de controle que governam os componentes do datapath do Neander. Os principais são:
+\begin{itemize}
+	\item \texttt{cargaPC, incrementaPC}: Sinais de controle do Contador de Programa (PC).
+	\item \texttt{cargaAC, cargaNZ}: Sinais de controle do Acumulador (AC) e dos registradores de flag.
+	\item \texttt{cargaRI, cargaREM, cargaRDM}: Sinais de habilitação para os registradores de Instrução, Endereço de Memória e Dados de Memória.
+	\item \texttt{selUAL[2..0]}: Sinal de 3 bits que seleciona a operação a ser realizada pela UAL.
+	\item \texttt{Read, Write}: Sinais para controlar as operações de leitura e escrita na memória.
+\end{itemize}
+
+\subsection{Módulos Principais}
+
+\begin{itemize}
+	\item \texttt{Unidade de Controle (UC)}: O núcleo do projeto. Um circuito puramente combinacional que implementa as expressões lógicas para gerar os sinais de controle.
+	\item \texttt{Decodificador}: Recebe o \texttt{OPCODE[3..0]} e gera um sinal de saída para cada uma das 11 instruções do Neander.
+	\item \texttt{Temporizador}: Um contador de 3 bits que gera 8 sinais de tempo distintos (\texttt{t0} a \texttt{t7}), sequenciando os passos de execução de cada instrução.
+\end{itemize}
+
+% --- SEÇÃO DE RESULTADOS COM TABELAS ATUALIZADAS ---
+\section{Resultados}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l | c|}
+        \hline
+        \textbf{Total de elementos lógicos} & 40 \\
+        \hline
+        \textbf{Total de pinos} & 24 \\
+        \hline
+        \textbf{Área total} & 64 \\
+        \hline
+        \textbf{Total de registradores} & 3 \\
+        \hline
+    \end{tabular}
+    \caption{Consumo de recursos da FPGA em área}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l | c|}
+        \hline
+        \textbf{Frequencia máxima} & 588.24 MHz \\
+        \hline
+        \textbf{Atraso crítico} & 1.662  \\
+        \hline
+    \end{tabular}
+    \caption{Frequência máxima de operação e atraso crítico (\textit{slow}, 85°C)}
+\end{table}
+
+OBS: o atraso crítico é dado 
+\begin{itemize}
+	\item \texttt{de}: TIMER:TIMER|UD\_COUNTER\_3BIT:inst|inst35
+	\item \texttt{para}: TIMER:TIMER|UD\_COUNTER\_3BIT:inst|UD\_COUNTER\_1BIT:inst9|inst7 
+\end{itemize}
+
+% --- SEÇÕES GENÉRICAS MANTIDAS ---
+\section{Capturas de tela}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{netlist.png}
+	\caption{Captura de tela do netlist (RTL Viewer)}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{waveform.png}
+	\caption{Captura de tela da simulação em forma de onda}
+\end{figure}
+
+% --- SEÇÃO DE SDC ATUALIZADA COM MELHORES PRÁTICAS ---
+\section{Arquivo de restrições}
+
+\begin{lstlisting}[caption=constraints.sdc, label=lst:sdc]
+create_clock -name clk -period 20 [get_ports CLK]
+
+set_input_delay -clock clk -max 0.2 [all_inputs]
+set_input_delay -clock clk -min 0.01 [all_inputs]
+set_output_delay -clock clk -max 0.2 [all_outputs]
+set_output_delay -clock clk -min 0.01 [all_outputs]
+\end{lstlisting}
+
+\end{document}

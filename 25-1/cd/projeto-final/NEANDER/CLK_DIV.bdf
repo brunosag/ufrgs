@@ -1,0 +1,639 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "graphic" (version "1.4"))
+(pin
+	(input)
+	(rect 72 48 240 64)
+	(text "INPUT" (rect 125 0 154 10)(font "Arial" (font_size 6)))
+	(text "CLK_IN" (rect 5 0 43 11)(font "Arial" ))
+	(pt 168 8)
+	(drawing
+		(line (pt 84 12)(pt 109 12))
+		(line (pt 84 4)(pt 109 4))
+		(line (pt 113 8)(pt 168 8))
+		(line (pt 84 12)(pt 84 4))
+		(line (pt 109 4)(pt 113 8))
+		(line (pt 109 12)(pt 113 8))
+	)
+	(text "VCC" (rect 128 7 149 17)(font "Arial" (font_size 6)))
+)
+(pin
+	(output)
+	(rect 256 48 432 64)
+	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
+	(text "CLK_OUT" (rect 90 0 141 11)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+)
+(symbol
+	(rect 136 136 296 232)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst" (rect 8 81 26 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 296 136 456 232)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst1" (rect 8 81 32 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 456 136 616 232)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst2" (rect 8 81 32 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 616 136 776 232)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst4" (rect 8 81 32 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 776 136 936 232)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst5" (rect 8 81 32 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 936 136 1096 232)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst6" (rect 8 81 32 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 936 232 1096 328)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst3" (rect 128 81 152 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 776 232 936 328)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst7" (rect 128 81 152 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 616 232 776 328)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst8" (rect 128 81 152 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 456 232 616 328)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst9" (rect 128 81 152 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 296 232 456 328)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst10" (rect 122 81 152 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 136 232 296 328)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst11" (rect 122 81 152 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 136 328 296 424)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst12" (rect 8 81 38 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 296 328 456 424)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst13" (rect 8 81 38 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 456 328 616 424)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst14" (rect 8 81 38 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 616 328 776 424)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst15" (rect 8 81 38 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 776 328 936 424)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst16" (rect 8 81 38 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 936 328 1096 424)
+	(text "CLK_DIV_UNIT" (rect 5 0 95 13)(font "Arial" (font_size 8)))
+	(text "inst17" (rect 8 81 38 92)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 21 27 65 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 79 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+)
+(symbol
+	(rect 936 424 1096 520)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst18" (rect 128 81 158 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 776 424 936 520)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst19" (rect 128 81 158 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 616 424 776 520)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst20" (rect 128 81 158 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 456 424 616 520)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst21" (rect 128 81 158 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 296 424 456 520)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst22" (rect 122 81 152 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(symbol
+	(rect 136 424 296 520)
+	(text "CLK_DIV_UNIT" (rect 65 0 155 13)(font "Arial" (font_size 8)))
+	(text "inst23" (rect 122 81 152 92)(font "Arial" ))
+	(port
+		(pt 160 32)
+		(input)
+		(text "CLK_IN" (rect 0 0 44 13)(font "Arial" (font_size 8)))
+		(text "CLK_IN" (rect 95 27 139 40)(font "Arial" (font_size 8)))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "CLK_OUT" (rect 0 0 60 13)(font "Arial" (font_size 8)))
+		(text "CLK_OUT" (rect 21 27 81 40)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 80))
+	)
+	(flipy)
+)
+(connector
+	(text "CLK_OUT" (rect 80 440 131 451)(font "Arial" ))
+	(pt 136 456)
+	(pt 72 456)
+)
+(connector
+	(text "CLK_IN" (rect 80 152 118 163)(font "Arial" ))
+	(pt 136 168)
+	(pt 72 168)
+)
+(connector
+	(pt 1096 168)
+	(pt 1112 168)
+)
+(connector
+	(pt 1112 168)
+	(pt 1112 264)
+)
+(connector
+	(pt 1096 264)
+	(pt 1112 264)
+)
+(connector
+	(pt 1096 360)
+	(pt 1112 360)
+)
+(connector
+	(pt 1096 456)
+	(pt 1112 456)
+)
+(connector
+	(pt 1112 360)
+	(pt 1112 456)
+)
+(connector
+	(pt 136 264)
+	(pt 120 264)
+)
+(connector
+	(pt 120 264)
+	(pt 120 360)
+)
+(connector
+	(pt 136 360)
+	(pt 120 360)
+)

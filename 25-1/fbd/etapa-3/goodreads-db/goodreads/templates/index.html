@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Goodreads SQL</title>
+</head>
+<body>
+    <h1>Goodreads SQL</h1>
+    <p>Digite uma transação SQL:</p>
+    <form action="/api/v1/POST/query" method="post">
+        <label for="sql">SQL:</label>
+        <input type="text" id="sql" name="sql"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Buscar Autor</h2>
+    <p>Digite o nome do autor para buscar livros:</p>
+    <form action="/api/v1/POST/select-author" method="post">
+        <label for="select-author">Nome do autor:</label>
+        <input type="text" id="select-author" name="select-author"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

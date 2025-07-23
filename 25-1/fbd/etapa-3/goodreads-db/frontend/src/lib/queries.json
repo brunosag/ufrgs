@@ -1,0 +1,62 @@
+[
+	{
+		"queryId": "000",
+		"title": "Consulta 0",
+		"description": "Autores de um gênero que tenham obras com nota média maior que uma certa nota",
+		"params": [
+			{ "name": "genre", "type": "text", "value": "sci-fi" },
+			{ "name": "rating", "type": "number", "value": 4 }
+		]
+	},
+	{
+		"queryId": "001",
+		"title": "Consulta 1",
+		"description": "Livros com nota média maior que uma certa nota e estatísticas de leitura dos usuários",
+		"params": [{ "name": "rating", "type": "number", "value": 4 }]
+	},
+	{
+		"queryId": "002",
+		"title": "Consulta 2",
+		"description": "Usuários que leram livros de todos os gêneros disponíveis (leitores completistas)"
+	},
+	{
+		"queryId": "003",
+		"title": "Consulta 3",
+		"description": "Estatísticas de leitura por gênero com número de leitores e avaliações médias"
+	},
+	{
+		"queryId": "004",
+		"title": "Consulta 4",
+		"description": "Ranking de autores mais populares baseado em curtidas de suas citações"
+	},
+	{
+		"queryId": "005",
+		"title": "Consulta 5",
+		"description": "Séries literárias com suas obras ordenadas por posição na série"
+	},
+	{
+		"queryId": "006",
+		"title": "Consulta 6",
+		"description": "Usuários que leram mais livros que a média anual (desafio de leitura acima da média)"
+	},
+	{
+		"queryId": "007",
+		"title": "Consulta 7",
+		"description": "Grupos de leitura ativos com livros em andamento e estatísticas de participação"
+	},
+	{
+		"queryId": "008",
+		"title": "Consulta 8",
+		"description": "Histórico de leituras recentes dos usuários com avaliações e resenhas"
+	},
+	{
+		"queryId": "009",
+		"title": "Consulta 9",
+		"description": "Análise de preferências de formato de livro pelos usuários"
+	},
+	{
+		"queryId": "0010",
+		"title": "Consulta 10",
+		"description": "Perfil completo de leitura por usuário com estatísticas detalhadas"
+	}
+]
